@@ -1,0 +1,835 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#090b10"><title>Anime Nexus — Animes y películas</title>
+<style>
+:root{--bg:#f4f2ee;--paper:#fffdfa;--ink:#191a20;--muted:#77736e;--line:#e8e1d7;--accent:#a77b3b;--accent2:#805a27;--soft:#f5ead7;--shadow:0 20px 55px #28201614}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.55 Inter,system-ui,-apple-system,"Segoe UI",Arial,sans-serif}
+header{height:76px;background:#fffdf9eF;backdrop-filter:blur(18px);border-bottom:1px solid var(--line);box-shadow:0 5px 24px #30281a08;position:sticky;top:0;z-index:20;display:flex;align-items:center;gap:30px;padding:0 clamp(18px,5vw,70px)}
+.logo{font-size:1.8rem;letter-spacing:-1.7px;font-weight:950;text-decoration:none;color:var(--ink)}.logo span{color:var(--accent)}
+nav{display:flex;align-items:center;gap:8px}nav button{border:0;background:transparent;color:#526075;font:inherit;font-weight:750;padding:10px 15px;border-radius:12px;cursor:pointer;transition:.2s}nav button:hover,nav button.active{background:var(--soft);color:var(--accent2)}.header-note{margin-left:auto;color:var(--muted);font-size:.85rem}
+main{max-width:1320px;margin:auto;padding:28px clamp(16px,4vw,54px) 64px}
+.welcome{display:grid;grid-template-columns:1.1fr .9fr;min-height:360px;background:linear-gradient(135deg,#fffdfa,#f0e7d9);border:1px solid #e6dccd;border-radius:28px;overflow:hidden;box-shadow:0 24px 70px #30281a12;margin-bottom:40px}
+.welcome-copy{padding:clamp(25px,5vw,58px);align-self:center}.eyebrow{text-transform:uppercase;letter-spacing:2px;font-size:.75rem;font-weight:900;color:var(--accent)}h1{font-size:clamp(2.4rem,5.5vw,4.8rem);line-height:.98;letter-spacing:-.065em;margin:13px 0 16px}.welcome-copy p{color:var(--muted);max-width:470px;font-size:1.02rem}.actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:24px}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;border:1px solid var(--line);border-radius:12px;padding:11px 17px;background:white;color:var(--ink);text-decoration:none;font-weight:800;cursor:pointer;transition:transform .2s,box-shadow .2s,background .2s}.btn:hover{transform:translateY(-2px);box-shadow:0 8px 20px #26334d16}.btn.primary{background:var(--accent);border-color:var(--accent);color:white}.btn.primary:hover{background:var(--accent2)}
+.welcome-art{position:relative;min-height:280px;background:linear-gradient(90deg,#fff0,#16120c30),url('https://m.media-amazon.com/images/S/pv-target-images/4c7ed176711c7f2d4732c949d649d0a33793adee214975ffdbad53d0acb1de51.jpg') center 38%/cover}.welcome-art:after{content:"ANIME DESTACADO";position:absolute;bottom:20px;right:20px;background:#191a20;padding:9px 13px;border-radius:9px;font-size:.7rem;font-weight:900;letter-spacing:1.5px;color:#f2d6a5;box-shadow:var(--shadow)}
+.section-top{display:flex;justify-content:space-between;align-items:end;gap:16px;margin:0 0 16px}.section-top h2{font-size:1.7rem;letter-spacing:-.04em;margin:0}.section-top p{margin:4px 0 0;color:var(--muted)}.filter{border:1px solid #dbe2e9;border-radius:999px;padding:10px 19px;background:#fffdfa;color:#61594e;font:inherit;font-weight:850;cursor:pointer;transition:.25s;box-shadow:0 3px 10px #30281a06}.filter:hover,.filter.active{background:var(--accent);border-color:var(--accent);color:white;box-shadow:0 8px 20px #a77b3b30;transform:translateY(-2px)}
+.grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:18px}.card{padding:0;border:1px solid var(--line);background:var(--paper);border-radius:18px;overflow:hidden;text-align:left;color:var(--ink);cursor:pointer;box-shadow:0 8px 24px #30281a08;transition:transform .28s,box-shadow .28s,border-color .28s;min-width:0}.card:hover,.card:focus-visible{transform:translateY(-5px);box-shadow:var(--shadow);border-color:#c7a36c;outline:none}.poster{height:clamp(190px,25vw,290px);position:relative;background:linear-gradient(135deg,#e9dfcf,#c8b69a);overflow:hidden}.poster img{width:100%;height:100%;display:block;object-fit:cover;object-position:center;transition:transform .35s}.card:hover .poster img{transform:scale(1.04)}.poster:after{content:"＋";position:absolute;right:12px;bottom:12px;width:38px;height:38px;border-radius:50%;display:grid;place-items:center;background:white;color:var(--accent);font-size:1.5rem;font-weight:600;box-shadow:0 5px 15px #0002}.card-body{padding:15px}.card-body h3{font-size:1rem;line-height:1.3;margin:0 0 5px}.card-body p{margin:0;color:var(--muted);font-size:.86rem}
+.details{display:none;background:white;border:1px solid var(--line);border-radius:18px;margin-top:20px;padding:clamp(16px,3vw,26px);box-shadow:var(--shadow);animation:up .25s ease}.details.open{display:block}.details-head{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap}.details-head h3{margin:0;font-size:1.3rem}.close{border:1px solid var(--line);background:#fffaf2;border-radius:9px;padding:8px 12px;font-weight:800;cursor:pointer}.muted{color:var(--muted)}.episode{display:grid;grid-template-columns:52px 1fr auto;align-items:center;gap:14px;padding:15px 0;border-bottom:1px solid var(--line)}.episode:last-child{border-bottom:0}.num{height:46px;border-radius:13px;background:var(--soft);color:var(--accent2);display:grid;place-items:center;font-weight:950}.episode h4{margin:0 0 3px}.episode p{margin:0;color:var(--muted);font-size:.85rem}.footer{text-align:center;padding:25px;color:#788396;border-top:1px solid var(--line);font-size:.85rem}
+[hidden]{display:none!important}@keyframes up{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}@media(max-width:900px){.grid{grid-template-columns:repeat(3,minmax(0,1fr))}.welcome{grid-template-columns:1fr .8fr}}@media(max-width:650px){header{height:auto;min-height:68px;padding:10px 16px;gap:10px;flex-wrap:wrap}.logo{font-size:1.55rem}nav{order:3;width:100%;justify-content:space-between}nav button{flex:1;padding:9px 8px}.header-note{font-size:.75rem}.welcome{grid-template-columns:1fr}.welcome-art{order:-1;min-height:205px}.welcome-copy{padding:24px}.grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.poster{height:clamp(175px,54vw,270px)}.card-body{padding:12px}.section-top h2{font-size:1.45rem}.episode{grid-template-columns:43px 1fr;gap:10px}.episode .btn{grid-column:1/-1;width:100%}main{padding-top:18px}}@media(prefers-reduced-motion:reduce){*,*:before,*:after{animation:none!important;transition:none!important}}
+
+/* Rediseño real: experiencia cinematográfica, no solo cambio de paleta */
+:root{--bg:#090b10;--paper:#11151e;--ink:#f4f5f7;--muted:#a0a6b3;--line:#262c38;--accent:#7c5cff;--accent2:#5b3ee4;--soft:#211b3c;--shadow:0 24px 70px #0008}
+body{background:radial-gradient(ellipse at 75% 0%,#1b1730 0,transparent 36%),var(--bg);color:var(--ink)}
+header{height:82px;background:#090b10e8;border-bottom:1px solid #ffffff12;box-shadow:none;padding-inline:clamp(18px,6vw,90px)}
+.logo{font-size:1.9rem;letter-spacing:-2px}.logo span{color:#9d8aff}
+nav button{color:#aeb4c2;border-radius:999px;padding:9px 18px}nav button:hover,nav button.active{background:#27203f;color:#c7bbff}.header-note{letter-spacing:.04em;color:#858b99}
+main{max-width:1440px;padding:30px clamp(18px,5vw,76px) 72px}
+.welcome{position:relative;display:flex;align-items:flex-end;min-height:510px;border:0;border-radius:26px;overflow:hidden;margin-bottom:56px;background:#111;box-shadow:0 30px 90px #0008}
+.welcome-art{position:absolute;inset:0;min-height:0;background:linear-gradient(90deg,#08090df2 0%,#08090db8 42%,#08090d15 100%),linear-gradient(0deg,#08090d9c,transparent 65%),url('https://m.media-amazon.com/images/S/pv-target-images/4c7ed176711c7f2d4732c949d649d0a33793adee214975ffdbad53d0acb1de51.jpg') center 38%/cover}
+.welcome-art:after{content:'ANIME NEXUS  /  DRAGON BALL SUPER: BROLY';right:24px;bottom:24px;background:#11151ecc;color:#d6ceff;border:1px solid #ffffff25;backdrop-filter:blur(10px)}
+.welcome-copy{position:relative;z-index:1;max-width:670px;padding:clamp(28px,6vw,76px)}.eyebrow{color:#b7a9ff;letter-spacing:3px}.welcome-copy h1{font-size:clamp(3rem,7vw,6.4rem);line-height:.9;letter-spacing:-.075em;max-width:650px}.welcome-copy p{color:#d0d2db;max-width:430px}.btn{border-radius:999px;border-color:#ffffff20;background:#171a24;color:#f5f5f8;padding:12px 20px}.btn.primary{background:#8a72ff;border-color:#8a72ff;color:#090812}.btn.primary:hover{background:#a092ff}.section-top{margin-bottom:22px}.section-top h2{font-size:2rem;letter-spacing:-.055em}.section-top p{color:#9299a8}.filter{background:#11151e;border-color:#2b3040;color:#b7bdca;box-shadow:none}.filter:hover,.filter.active{background:#8a72ff;border-color:#8a72ff;color:#0b0915;box-shadow:0 8px 24px #7054ff35}
+.grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:22px}.card{display:grid;grid-template-columns:minmax(145px,42%) 1fr;align-items:stretch;background:linear-gradient(135deg,#151a25,#10131b);border-color:#ffffff10;border-radius:20px;box-shadow:0 12px 34px #0003}.card:hover,.card:focus-visible{border-color:#8a72ff88;box-shadow:0 22px 48px #0006;transform:translateY(-4px)}.poster{height:100%;min-height:240px;background:#191d28}.poster img{min-height:240px}.card-body{align-self:center;padding:22px}.card-body h3{font-size:clamp(1.05rem,2vw,1.45rem);letter-spacing:-.035em}.card-body p{font-size:.9rem;color:#a4aabb}.details{background:#11151e;border-color:#2b3040;border-radius:20px;margin-top:24px}.details-head h3{font-size:1.45rem}.close{background:#1a1e2a;color:#e9eaf0;border-color:#303648}.episode{border-color:#292e3b}.num{background:#28213f;color:#c5b9ff;border-radius:14px}.episode p{color:#9ba2b2}.footer{color:#7e8594;border-color:#202531}
+@media(max-width:760px){.welcome{min-height:480px}.welcome-art{background-position:58% center}.welcome-copy{padding:26px 23px 32px}.welcome-copy h1{font-size:clamp(3rem,14vw,4.7rem)}.grid{grid-template-columns:1fr;gap:14px}.card{grid-template-columns:38% 1fr}.poster,.poster img{min-height:190px}.card-body{padding:15px}header{gap:16px}nav{margin-left:0}}
+@media(max-width:390px){.card{grid-template-columns:34% 1fr}.poster,.poster img{min-height:165px}.card-body{padding:12px}}
+
+
+/* Modal fijo de capítulos: cubre por completo la página y mantiene el foco dentro de la ventana. */
+.modal-overlay{position:fixed;inset:0;z-index:1000;display:flex;align-items:center;justify-content:center;padding:24px;background:#090b10;isolation:isolate}
+.modal-overlay[hidden]{display:none!important}
+.modal-overlay .details{display:none;flex-direction:column;width:min(100%,780px);height:min(88dvh,850px);max-height:calc(100dvh - 48px);overflow:hidden;margin:0;padding:0;border:1px solid #39334f;border-radius:24px;background:linear-gradient(145deg,#151925,#0f121b);box-shadow:0 35px 110px #000b;animation:modalIn .22s ease-out}
+.modal-overlay .details.open{display:flex}
+/* El encabezado ya no se mezcla con el contenido desplazable: tiene su propia franja fija. */
+.modal-overlay .details-head{position:relative;top:auto;z-index:2;flex:0 0 auto;display:flex;align-items:flex-start;padding:clamp(20px,4vw,38px);padding-bottom:15px;margin:0;background:#151925;border-bottom:1px solid #ffffff12;border-radius:23px 23px 0 0}
+.modal-overlay .details-head h3{font-size:clamp(1.15rem,3.4vw,1.65rem);line-height:1.25;padding-top:0}
+.modal-overlay .details-content{flex:1 1 auto;min-height:0;overflow:auto;overscroll-behavior:contain;padding:0 clamp(20px,4vw,38px) clamp(20px,4vw,38px);scrollbar-gutter:stable}
+.modal-overlay .muted{margin:4px 0 8px}
+.modal-overlay .episode{padding:18px 0}
+.anime-synopsis{margin:2px 0 18px;padding:17px 18px;border:1px solid #ffffff12;border-radius:16px;background:linear-gradient(120deg,#8a72ff15,#ffffff03)}
+.anime-synopsis .synopsis-label{margin:0 0 7px;color:#b7a9ff;font-size:.68rem;font-weight:900;letter-spacing:.15em;text-transform:uppercase}
+.anime-synopsis p:last-child{margin:0;max-width:68ch;color:#d4d7e1;font-size:.94rem;line-height:1.7}
+.modal-overlay .close{flex-shrink:0}
+body.modal-open{overflow:hidden}
+@keyframes modalIn{from{opacity:0;transform:translateY(12px) scale(.985)}to{opacity:1;transform:translateY(0) scale(1)}}
+@media(max-width:600px){.modal-overlay{padding:12px}.modal-overlay .details{height:min(88dvh,900px);max-height:calc(100dvh - 24px);padding:0;border-radius:19px}.modal-overlay .details-head{padding:20px 17px 14px;border-radius:18px 18px 0 0}.modal-overlay .details-content{padding:0 17px 20px}.modal-overlay .episode{padding:16px 0}}
+@media(prefers-reduced-motion:reduce){.modal-overlay .details{animation:none}}
+
+
+/* Portadas cinematográficas: el texto aparece al pasar el mouse o revelar con el primer toque. */
+.grid{grid-template-columns:repeat(auto-fill,minmax(170px,235px));justify-content:start;gap:22px}
+.card{display:block;position:relative;aspect-ratio:2/3;width:100%;max-width:235px;min-height:0;padding:0;isolation:isolate;border:1px solid #ffffff14;border-radius:18px;overflow:hidden;background:#11151e;text-align:left;box-shadow:0 14px 38px #0006;cursor:pointer;transition:transform .28s,box-shadow .28s,border-color .28s}
+.card:hover,.card:focus-visible,.card.revealed{transform:translateY(-5px);border-color:#8a72ff99;box-shadow:0 24px 54px #0009;outline:none}
+.poster{position:absolute;inset:0;height:auto;min-height:0;background:#191d28;overflow:hidden}
+.poster img{display:block;width:100%;height:100%;min-height:0;object-fit:cover;object-position:center;transition:transform .55s cubic-bezier(.2,.75,.2,1),filter .35s}
+.card:hover .poster img,.card:focus-visible .poster img,.card.revealed .poster img{transform:scale(1.055);filter:saturate(1.06)}
+
+
+.card-body{position:absolute;z-index:3;inset:auto 0 0;align-self:auto;padding:62px 17px 20px;background:linear-gradient(0deg,#08090df7 0%,#08090ddf 42%,#08090d80 72%,transparent 100%);opacity:0;transform:translateY(13px);transition:opacity .28s ease,transform .28s ease;pointer-events:none}
+.card:hover .card-body,.card:focus-visible .card-body,.card.revealed .card-body{opacity:1;transform:translateY(0)}
+.card-body h3{margin:0 0 7px;color:#fff;font-size:clamp(1rem,1.3vw,1.2rem);line-height:1.25;letter-spacing:-.025em}
+.card-body p{margin:0;color:#d1d3df;font-size:.83rem;line-height:1.45}
+.card-hint{display:block;margin:12px 0 0!important;color:#bfb3ff!important;font-size:.72rem!important;font-weight:850;letter-spacing:.02em}
+.hint-touch{display:none}
+@media(max-width:600px){
+  .grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+  .card{max-width:none;border-radius:15px}
+  .card-body{padding:52px 12px 15px}
+  .card-body h3{font-size:1rem}
+  .card-body p{font-size:.76rem}
+}
+@media(hover:none) and (pointer:coarse){
+  .card-body{opacity:0;transform:translateY(8px)}
+  .card.revealed .card-body{opacity:1;transform:translateY(0)}
+  .hint-hover{display:none}
+  .hint-touch{display:inline}
+}
+@media(prefers-reduced-motion:reduce){.card,.poster img,.poster:after,.card-body{transition:none!important}}
+
+.logo{font-size:1.55rem!important;letter-spacing:-1.2px!important;white-space:nowrap}.logo span{color:#9d8aff}
+.welcome-art{background-position:center 50%;background-size:cover}
+.card[data-show="cyberpunk2"] .poster img{object-position:left center}
+@media(max-width:420px){.logo{font-size:1.35rem!important}header{gap:10px}}
+
+/* Búsqueda instantánea del catálogo */
+.catalog-top{display:flex;align-items:center;justify-content:space-between;gap:22px;flex-wrap:wrap}
+.catalog-heading{min-width:190px}
+.search-box{display:flex;align-items:center;gap:11px;width:min(100%,380px);min-height:52px;padding:0 14px;border:1px solid #2b3040;border-radius:16px;background:linear-gradient(135deg,#141823,#10131b);color:#aeb4c2;box-shadow:0 10px 30px #0002;transition:border-color .2s,box-shadow .2s}
+.search-box:focus-within{border-color:#8a72ff;box-shadow:0 0 0 3px #8a72ff25,0 12px 32px #0003}
+.search-box svg{width:21px;height:21px;flex-shrink:0;fill:none;stroke:#a99aff;stroke-width:1.8;stroke-linecap:round}
+.search-box input{width:100%;min-width:0;border:0;outline:0;background:transparent;color:#f4f5f7;font:inherit;font-size:.95rem}
+.search-box input::placeholder{color:#7e8596}
+.search-box input::-webkit-search-cancel-button{-webkit-appearance:none;appearance:none}
+.search-box button{width:28px;height:28px;flex-shrink:0;border:0;border-radius:50%;background:#29233e;color:#ddd7ff;font-size:1.25rem;line-height:1;cursor:pointer}
+.empty-state{padding:52px 20px 56px;text-align:center;border:1px dashed #37334b;border-radius:20px;background:#10131b;color:#f4f5f7}
+.empty-state[hidden]{display:none!important}
+.empty-icon{display:inline-grid;place-items:center;width:54px;height:54px;border-radius:50%;background:#28213f;color:#c5b9ff;font-size:2.1rem;margin-bottom:8px}
+.empty-state h3{margin:5px 0 7px;font-size:1.2rem}
+.empty-state p{margin:0 0 18px;color:#9ba2b2}
+@media(max-width:600px){.catalog-top{align-items:stretch;gap:15px}.search-box{width:100%;min-height:50px}.catalog-heading{width:100%}}
+
+
+
+/* Miniaturas de episodios: imagen 16:9 junto a cada capítulo, con fallback transparente. */
+.modal-overlay .episode{grid-template-columns:168px minmax(0,1fr) auto;gap:16px;align-items:center}
+.episode-thumb{position:relative;width:100%;max-width:168px;aspect-ratio:16/9;overflow:hidden;border:1px solid #ffffff18;border-radius:13px;background:linear-gradient(135deg,#29233e,#0b0d14);box-shadow:0 9px 24px #0004;isolation:isolate}
+.episode-preview{display:block;width:100%;height:100%;object-fit:cover;object-position:center;transition:transform .35s ease,filter .35s ease}
+.episode-thumb:hover .episode-preview{transform:scale(1.045);filter:saturate(1.08)}
+.episode-thumb:after{content:"";position:absolute;inset:35% 0 0;background:linear-gradient(0deg,#06070bd9,transparent);pointer-events:none}
+.episode-thumb.is-image-unavailable{display:grid;place-items:center;background:radial-gradient(circle at 50% 35%,#30264b,#0b0d14 72%)}
+.episode-thumb.is-image-unavailable:before{content:"VISTA PREVIA";position:absolute;inset:0;display:grid;place-items:center;color:#c5b9ff;font-size:.72rem;font-weight:900;letter-spacing:.14em;text-align:center;pointer-events:none}
+.episode-thumb.is-image-unavailable:after{background:linear-gradient(0deg,#06070b9c,transparent 70%)}
+.episode-thumb.is-image-unavailable .thumb-kind{font-size:.52rem}
+.thumb-number,.thumb-kind{position:absolute;z-index:2;display:inline-flex;align-items:center;justify-content:center;padding:4px 7px;border:1px solid #ffffff26;border-radius:7px;background:#090b10bb;color:#fff;font-size:.62rem;font-weight:900;letter-spacing:.08em;line-height:1.2;backdrop-filter:blur(8px)}
+.thumb-number{left:8px;bottom:8px}
+.thumb-kind{right:7px;top:7px;color:#d7ceff;font-size:.56rem}
+.episode-thumb.is-poster-fallback .thumb-kind{color:#f4d8a6;border-color:#f4d8a633}
+.episode-info{min-width:0}
+.modal-overlay .episode-info h4{margin:0 0 5px;font-size:1rem;line-height:1.3;color:#f5f5f9}
+.modal-overlay .episode-info p{line-height:1.45}
+.modal-overlay .episode .btn{white-space:nowrap;flex-shrink:0}
+@media(max-width:760px){.modal-overlay .episode{grid-template-columns:128px minmax(0,1fr);gap:12px}.episode-thumb{max-width:128px}.modal-overlay .episode .btn{grid-column:1/-1;width:100%}}
+@media(max-width:420px){.modal-overlay .episode{grid-template-columns:105px minmax(0,1fr);gap:10px}.episode-thumb{max-width:105px}.thumb-number{left:5px;bottom:5px;padding:3px 5px}.thumb-kind{right:4px;top:4px;padding:3px 4px;font-size:.5rem}.modal-overlay .episode-info h4{font-size:.92rem}}
+@media(prefers-reduced-motion:reduce){.episode-preview{transition:none!important}}
+
+
+
+/* Acciones de las portadas y lista de pendientes. */
+.card-body{pointer-events:none}
+.card:hover .card-body,.card:focus-visible .card-body,.card.revealed .card-body,.card:focus-within .card-body{pointer-events:auto}
+.card:focus-within .card-body{opacity:1;transform:translateY(0)}
+.card-actions{display:flex;align-items:center;margin-top:12px;pointer-events:auto}
+.pending-button{width:100%;min-height:38px;display:flex;align-items:center;justify-content:center;gap:8px;padding:8px 10px;border:1px solid #ffffff20;border-radius:999px;background:#ffffff0d;color:#e6e1ff;font:inherit;font-size:.77rem;font-weight:850;cursor:pointer;transition:background .2s,border-color .2s,transform .2s}
+.pending-button svg{width:16px;height:16px;flex:0 0 16px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.pending-button:hover,.pending-button:focus-visible{transform:translateY(-1px);background:#8a72ff24;border-color:#8a72ff99;outline:none}
+.pending-button.is-pending{background:#8a72ff;color:#100d20;border-color:#8a72ff}
+.pending-button.is-pending svg path:first-child{fill:#100d2010}
+
+.card:focus-within{border-color:#8a72ff99;box-shadow:0 22px 48px #0006}
+@media(max-width:600px){.pending-button{min-height:36px;gap:6px;padding:7px 6px;font-size:.7rem}.card-actions{margin-top:10px}.card-body{padding-bottom:14px}}
+
+
+/* Ajuste solicitado: quitar el botón circular con flecha de las portadas.
+   La tarjeta completa sigue siendo clicable para abrir el modal del anime. */
+.poster:after,
+.card:hover .poster:after,
+.card:focus-visible .poster:after,
+.card.revealed .poster:after {
+  content: none !important;
+  display: none !important;
+}
+
+
+/* Aviso discreto y control de regreso al inicio. */
+.back-to-top{position:fixed;right:clamp(14px,2.8vw,34px);bottom:clamp(14px,2.8vw,30px);z-index:90;display:flex;align-items:center;gap:8px;padding:12px 16px;border:1px solid #9b89ff77;border-radius:999px;background:#8a72ff;color:#0c0919;font:inherit;font-size:.88rem;font-weight:900;box-shadow:0 12px 34px #0007;cursor:pointer;transition:transform .2s,background .2s,box-shadow .2s}
+.back-to-top:hover{transform:translateY(-3px);background:#a092ff;box-shadow:0 16px 38px #0008}
+.back-to-top svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round}
+.back-to-top:focus-visible{outline:2px solid #ded7ff;outline-offset:4px}
+@media(max-width:600px){.back-to-top{right:14px;bottom:14px;padding:12px;border-radius:50%;width:48px;height:48px;justify-content:center}.back-to-top span{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}}
+@media(prefers-reduced-motion:reduce){.back-to-top{transition:none}}
+
+
+
+/* Centrar la navegación en el encabezado, sin logo ni texto lateral. */
+header{justify-content:center}
+header>nav{width:max-content;max-width:100%;margin-inline:auto;justify-content:center;flex:0 0 auto}
+@media(max-width:650px){
+  header{justify-content:center}
+  header>nav{width:100%;margin-inline:auto;justify-content:center;gap:7px;flex-wrap:wrap}
+  header>nav button{flex:0 0 auto;padding:9px 13px}
+}
+
+
+/* Sistema de flechas unificado: trazos limpios, proporciones consistentes y microanimación. */
+.explore-btn{gap:10px}
+.explore-btn .arrow-down{width:17px;height:17px;flex:0 0 17px;fill:none;stroke:currentColor;stroke-width:2.1;stroke-linecap:round;stroke-linejoin:round;transition:transform .22s ease}
+.explore-btn:hover .arrow-down{transform:translateY(3px)}
+.card-hint .hint-hover{display:inline-flex;align-items:center;gap:7px}
+.card-hint .arrow-right{width:15px;height:15px;flex:0 0 15px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;transition:transform .22s ease}
+.card:hover .card-hint .arrow-right,.card:focus-visible .card-hint .arrow-right,.card.revealed .card-hint .arrow-right{transform:translateX(3px)}
+.back-to-top{gap:9px}
+.back-to-top svg{width:19px;height:19px;flex:0 0 19px;fill:none;stroke:currentColor;stroke-width:2.25;stroke-linecap:round;stroke-linejoin:round;transition:transform .22s ease}
+.back-to-top:hover svg{transform:translateY(-2px)}
+/* Las portadas quedan limpias: el gesto se indica en el texto, sin flechas flotantes. */
+.poster:after,.card:hover .poster:after,.card:focus-visible .poster:after,.card.revealed .poster:after{display:none!important;content:none!important}
+@media(prefers-reduced-motion:reduce){.explore-btn .arrow-down,.card-hint .arrow-right,.back-to-top svg{transition:none!important}}
+
+
+
+/* Reproducción externa: enlaces originales en pestaña separada. */
+/* Portada destacada: diseño editorial renovado y arte sin estirar */
+.welcome{
+  position:relative;isolation:isolate;display:grid;grid-template-columns:minmax(0, .88fr) minmax(0, 1.12fr);
+  align-items:stretch;min-height:clamp(430px, 38vw, 510px);margin:12px 0 54px;
+  overflow:hidden;border:1px solid rgba(151,129,255,.28);border-radius:30px;
+  background:radial-gradient(ellipse at 12% 0%,rgba(119,88,255,.16),transparent 42%),linear-gradient(130deg,#12141e 0%,#0b0d14 68%,#151025 100%);
+  box-shadow:0 28px 80px rgba(0,0,0,.42),inset 0 1px 0 rgba(255,255,255,.045);
+}
+.welcome:before{content:"";position:absolute;z-index:3;left:0;top:0;bottom:0;width:3px;background:linear-gradient(180deg,#b4a4ff,#7c5cff 55%,#ff3f83);opacity:.9}
+.welcome-copy{position:relative;z-index:4;display:flex;flex-direction:column;justify-content:center;align-items:flex-start;max-width:none;padding:clamp(30px,4vw,62px);background:linear-gradient(90deg,rgba(14,16,25,.99) 0%,rgba(14,16,25,.96) 74%,rgba(14,16,25,.82) 100%)}
+.eyebrow{display:inline-flex;align-items:center;gap:9px;width:max-content;max-width:100%;padding:9px 12px;border:1px solid rgba(181,166,255,.2);border-radius:999px;background:rgba(137,113,255,.09);color:#c4b7ff;font-size:.68rem;font-weight:900;letter-spacing:2.2px;line-height:1.2}
+.eyebrow-dot{width:7px;height:7px;flex:0 0 7px;border-radius:50%;background:#9b82ff;box-shadow:0 0 12px rgba(155,130,255,.8)}
+.welcome-copy h1{margin:23px 0 17px;font-size:clamp(3.25rem,5.7vw,5.8rem);line-height:.91;letter-spacing:-.075em;font-weight:950;max-width:580px;color:#fbfaff;text-wrap:balance}
+.welcome-copy h1 span{color:transparent;background:linear-gradient(95deg,#fff 0%,#cfc5ff 64%,#a58dff 100%);background-clip:text;-webkit-background-clip:text}
+.welcome-copy p{max-width:430px;margin:0;color:#c2c5d1;font-size:1rem;line-height:1.75}
+.welcome-meta{display:flex;align-items:center;gap:11px;flex-wrap:wrap;margin-top:23px;color:#8f96aa;font-size:.66rem;font-weight:850;letter-spacing:1.25px}
+.welcome-meta i{display:block;width:4px;height:4px;border-radius:50%;background:#8f7aff}
+.welcome .actions{display:flex;gap:11px;flex-wrap:wrap;margin-top:27px}
+.welcome .btn{display:inline-flex;align-items:center;justify-content:center;gap:9px;min-height:47px;padding:13px 19px;border-radius:13px;font-size:.9rem;font-weight:850;white-space:nowrap;box-shadow:none}
+.welcome .btn.primary{background:linear-gradient(135deg,#a38bff 0%,#8061ff 100%);border:1px solid rgba(255,255,255,.22);color:#0b0915;box-shadow:0 8px 24px rgba(124,92,255,.22)}
+.welcome .btn.primary:hover{transform:translateY(-2px);box-shadow:0 12px 30px rgba(124,92,255,.32);filter:brightness(1.06)}
+.welcome .btn.explore-btn{background:rgba(255,255,255,.035);border:1px solid rgba(255,255,255,.15);color:#f2f0ff}
+.welcome .btn.explore-btn:hover{background:rgba(255,255,255,.075);border-color:rgba(181,166,255,.42)}
+.welcome .arrow-down{width:17px;height:17px;stroke-width:2.2}
+.play-mark{font-size:.88rem;line-height:1}
+.welcome-art{position:relative;z-index:1;inset:auto;width:100%;height:100%;min-height:100%;overflow:hidden;border-left:1px solid rgba(255,255,255,.055);background-color:#0d1018;
+  background-image:linear-gradient(90deg,#0e1019 0%,rgba(14,16,25,.58) 7%,rgba(14,16,25,.04) 27%,rgba(10,11,17,.02) 72%,rgba(10,11,17,.22) 100%),linear-gradient(0deg,rgba(7,8,13,.42),transparent 34%),url('https://m.media-amazon.com/images/S/pv-target-images/4c7ed176711c7f2d4732c949d649d0a33793adee214975ffdbad53d0acb1de51.jpg');
+  background-size:cover;background-position:center center;background-repeat:no-repeat;filter:saturate(1.08) contrast(1.04)}
+.welcome-art:after{content:'ÚLTIMO AGREGADO  /  DRAGON BALL SUPER: BROLY';position:absolute;right:22px;bottom:22px;left:auto;top:auto;padding:10px 13px;border-radius:9px;background:rgba(12,14,22,.78);color:#d8d0ff;border:1px solid rgba(255,255,255,.14);backdrop-filter:blur(12px);font-size:.61rem;font-weight:900;letter-spacing:1.5px;box-shadow:0 10px 30px rgba(0,0,0,.24)}
+.welcome-index{position:absolute;z-index:4;top:20px;right:20px;padding:7px 10px;border:1px solid rgba(255,255,255,.12);border-radius:7px;background:rgba(9,10,16,.58);color:rgba(239,235,255,.72);font-size:.58rem;letter-spacing:1.4px;font-weight:900;backdrop-filter:blur(10px)}
+@media(max-width:900px){.welcome{grid-template-columns:minmax(0,.95fr) minmax(0,1.05fr);min-height:420px}.welcome-copy{padding:30px}.welcome-copy h1{font-size:clamp(3rem,6vw,4.5rem)}.welcome-copy p{font-size:.94rem}.welcome-art{background-position:53% center}}
+@media(max-width:680px){.welcome{grid-template-columns:1fr;min-height:0;margin-top:8px;border-radius:23px}.welcome-art{order:-1;min-height:clamp(225px,62vw,330px);height:auto;border-left:0;border-bottom:1px solid rgba(255,255,255,.07);background-position:center 43%;background-size:cover}.welcome-art:after{right:12px;bottom:12px;font-size:.52rem;padding:8px 10px}.welcome-copy{padding:25px 23px 28px;background:linear-gradient(180deg,#10121b 0%,#0e1019 100%)}.welcome-copy h1{margin:18px 0 13px;font-size:clamp(3rem,12.5vw,4.25rem)}.welcome-copy p{font-size:.92rem;line-height:1.65}.welcome-meta{margin-top:17px;font-size:.59rem}.welcome .actions{margin-top:21px;gap:9px}.welcome .btn{min-height:44px;padding:11px 14px;font-size:.82rem}.welcome-index{top:12px;right:12px}}
+@media(max-width:390px){.welcome-copy{padding-inline:18px}.welcome .actions{align-items:stretch}.welcome .actions .btn{width:100%}.welcome-copy h1{font-size:2.85rem}.eyebrow{font-size:.58rem;letter-spacing:1.5px}}
+@media(prefers-reduced-motion:no-preference){.welcome-art{animation:artReveal .75s cubic-bezier(.2,.7,.25,1) both}.welcome-copy>*{animation:copyReveal .6s ease both}.welcome-copy>*:nth-child(2){animation-delay:.07s}.welcome-copy>*:nth-child(3){animation-delay:.13s}.welcome-copy>*:nth-child(4){animation-delay:.18s}.welcome-copy>*:nth-child(5){animation-delay:.23s}@keyframes artReveal{from{opacity:.65;transform:scale(1.025)}to{opacity:1;transform:scale(1)}}@keyframes copyReveal{from{opacity:0;transform:translateY(9px)}to{opacity:1;transform:translateY(0)}}}
+
+
+/* La navegación admite la categoría Películas sin perder el centrado. */
+@media(max-width:650px){header>nav{gap:6px}header>nav button{padding:9px 11px;font-size:.9rem}}
+.card[data-kind="movie"] .card-hint{color:#c5b9ff}
+.card[data-kind="movie"] .card-hint .hint-hover{font-weight:900}
+
+
+
+/* Animaciones refinadas para la navegación por categorías */
+header nav button[data-filter]{position:relative;isolation:isolate;overflow:hidden;transform:translateZ(0);transition:background .28s ease,color .22s ease,border-color .22s ease,box-shadow .28s ease,transform .22s cubic-bezier(.2,.75,.2,1)}
+header nav button[data-filter]::before{content:"";position:absolute;inset:0;z-index:-1;border-radius:inherit;background:linear-gradient(115deg,rgba(160,140,255,.2),rgba(138,114,255,.03) 62%,transparent);opacity:0;transform:translateX(-10%);transition:opacity .25s ease,transform .35s ease;pointer-events:none}
+header nav button[data-filter]:hover::before,header nav button[data-filter].active::before{opacity:1;transform:translateX(0)}
+header nav button[data-filter]:hover{transform:translateY(-2px);box-shadow:0 8px 22px rgba(112,84,255,.16)}
+header nav button[data-filter].active{box-shadow:0 7px 22px rgba(112,84,255,.24),inset 0 0 0 1px rgba(255,255,255,.1)}
+header nav button[data-filter]:active{transform:translateY(0) scale(.97)}
+@keyframes categoryCardIn{0%{opacity:0;transform:translateY(17px) scale(.985);filter:blur(2px)}72%{opacity:1;filter:blur(0)}100%{opacity:1;transform:translateY(0) scale(1);filter:blur(0)}}
+.card.category-enter{animation:categoryCardIn .42s cubic-bezier(.2,.75,.2,1) both;animation-delay:var(--enter-delay,0ms)}
+@media(prefers-reduced-motion:reduce){header nav button[data-filter]{transition:none!important}.card.category-enter{animation:none!important}}
+
+
+
+
+/* Intro de bienvenida: estilos aislados para no interferir con el catálogo existente. */
+body.intro-locked{height:100%;overflow:hidden!important}
+body.intro-locked>header,
+body.intro-locked>main,
+body.intro-locked>.footer,
+body.intro-locked>#back-to-top,
+body.intro-locked>.modal-overlay,
+body.intro-locked>.player-overlay{visibility:hidden!important;pointer-events:none!important}
+.intro-screen{position:fixed;inset:0;z-index:100000;display:grid;place-items:center;overflow:hidden;padding:clamp(14px,3vw,34px);color:#f7f6ff;background:#080914;isolation:isolate;opacity:1;visibility:visible;transition:opacity .62s ease,visibility .62s ease}
+.intro-screen[hidden]{display:none!important}
+.intro-backdrop{position:absolute;inset:0;z-index:0;pointer-events:none;background-image:linear-gradient(90deg,#080914 0%,rgba(8,9,20,.91) 32%,rgba(8,9,20,.66) 69%,rgba(8,9,20,.48) 100%),linear-gradient(0deg,#080914 0%,transparent 65%),url('https://m.media-amazon.com/images/S/pv-target-images/4c7ed176711c7f2d4732c949d649d0a33793adee214975ffdbad53d0acb1de51.jpg');background-position:center,center,68% 35%;background-size:cover;filter:saturate(.86) contrast(1.06);transform:scale(1.025);animation:intro-bg-drift 22s ease-in-out infinite alternate}
+.intro-grid{position:absolute;inset:0;z-index:0;pointer-events:none;opacity:.12;background-image:linear-gradient(rgba(255,255,255,.07) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.07) 1px,transparent 1px);background-size:58px 58px;mask-image:linear-gradient(90deg,transparent,#000 18%,#000 82%,transparent)}
+.intro-orbit{position:absolute;z-index:0;pointer-events:none;border:1px solid rgba(166,148,255,.17);border-radius:50%;box-shadow:0 0 70px rgba(127,103,255,.08),inset 0 0 60px rgba(127,103,255,.035)}
+.intro-orbit-one{width:min(68vw,760px);aspect-ratio:1;right:-16%;top:-31%;animation:intro-orbit-spin 42s linear infinite}
+.intro-orbit-two{width:min(49vw,545px);aspect-ratio:1;right:-5%;top:-17%;border-color:rgba(110,177,255,.12);animation:intro-orbit-spin 54s linear infinite reverse}
+.intro-card{position:relative;z-index:2;display:flex;align-items:center;width:min(1160px,100%);min-height:min(650px,calc(100vh - 60px));min-height:min(650px,calc(100dvh - 60px));padding:clamp(27px,6vw,78px);border:1px solid rgba(190,179,255,.2);border-radius:clamp(22px,3vw,34px);background:linear-gradient(110deg,rgba(11,13,27,.95),rgba(12,14,29,.86) 57%,rgba(12,14,29,.55));box-shadow:0 35px 120px rgba(0,0,0,.5),inset 0 1px 0 rgba(255,255,255,.07);backdrop-filter:blur(14px);overflow:hidden;animation:intro-card-in .82s cubic-bezier(.18,.78,.2,1) both}
+.intro-card::after{content:"";position:absolute;inset:0;pointer-events:none;background:linear-gradient(112deg,transparent 0%,rgba(165,145,255,.07) 42%,transparent 64%);transform:translateX(-110%);animation:intro-sheen 1.7s .25s ease-out both}
+.intro-copy{position:relative;z-index:2;width:min(700px,72%);animation:intro-copy-in .72s .12s ease both}
+.intro-kicker{display:flex;align-items:center;gap:10px;margin:0 0 22px;color:#c4b9ff;font-size:.72rem;font-weight:900;letter-spacing:.19em;text-transform:uppercase}
+.intro-status-dot{width:8px;height:8px;flex:0 0 8px;border-radius:50%;background:#aa9aff;box-shadow:0 0 0 5px rgba(170,154,255,.12),0 0 22px rgba(170,154,255,.9);animation:intro-dot-pulse 2s ease-in-out infinite}
+.intro-title{max-width:760px;margin:0;color:#faf9ff;font-size:clamp(2.8rem,6.3vw,6rem);font-weight:950;line-height:.97;letter-spacing:-.075em}
+.intro-title span{display:block;margin-top:.12em;color:#a99aff;background:linear-gradient(100deg,#d0c7ff,#9482ff 48%,#8bcfff);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+.intro-description{max-width:560px;margin:24px 0 0;color:#c5c8d8;font-size:clamp(1rem,1.5vw,1.15rem);line-height:1.8}
+.intro-benefits{display:flex;flex-wrap:wrap;gap:10px;margin-top:25px}
+.intro-benefit{display:inline-flex;align-items:center;gap:9px;padding:10px 13px;border:1px solid rgba(190,181,255,.18);border-radius:999px;background:rgba(255,255,255,.045);color:#e5e3f4;font-size:.8rem;font-weight:750}
+.intro-benefit svg{width:16px;height:16px;flex:none;fill:none;stroke:#a99aff;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.intro-note{max-width:530px;margin:14px 0 0;color:#858ba1;font-size:.75rem;line-height:1.55}
+.intro-actions{display:flex;align-items:center;gap:20px;flex-wrap:wrap;margin-top:31px}
+.intro-next{position:relative;display:inline-flex;align-items:center;justify-content:center;gap:24px;min-width:180px;padding:16px 22px;border:1px solid rgba(225,219,255,.52);border-radius:14px;background:linear-gradient(120deg,#c7bdff,#927eff 58%,#7ebfff);color:#100d22;font:900 .86rem/1 Inter,system-ui,sans-serif;letter-spacing:.17em;cursor:pointer;box-shadow:0 12px 38px rgba(133,108,255,.28),inset 0 1px 0 rgba(255,255,255,.6);transition:transform .22s ease,box-shadow .22s ease,filter .22s ease;overflow:hidden}
+.intro-next::before{content:"";position:absolute;inset:0;pointer-events:none;background:linear-gradient(110deg,transparent 25%,rgba(255,255,255,.55) 50%,transparent 75%);transform:translateX(-120%);transition:transform .5s ease}
+.intro-next:hover{transform:translateY(-3px);filter:brightness(1.06);box-shadow:0 18px 46px rgba(133,108,255,.38)}
+.intro-next:hover::before{transform:translateX(120%)}
+.intro-next:active{transform:scale(.985)}
+.intro-next:focus-visible{outline:3px solid #eeeaff;outline-offset:4px}
+.intro-next svg{width:19px;height:19px;fill:none;stroke:currentColor;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round;transition:transform .22s ease}
+.intro-next:hover svg{transform:translateX(4px)}
+.intro-tagline{display:flex;align-items:center;gap:9px;color:#8e93aa;font-size:.69rem;letter-spacing:.12em;text-transform:uppercase}
+.intro-tagline::before{content:"";width:23px;height:1px;background:#776cb8}
+.intro-side-mark{position:absolute;right:clamp(25px,5vw,68px);bottom:clamp(28px,5vw,66px);display:flex;flex-direction:column;align-items:flex-end;gap:3px;color:#dfdcff;opacity:.7;letter-spacing:.18em;text-align:right}
+.intro-side-mark span{font-size:.55rem;font-weight:800;letter-spacing:.32em}
+.intro-side-mark strong{font-size:clamp(1.55rem,3.5vw,3rem);font-weight:950;letter-spacing:-.06em}
+.intro-side-mark i{display:block;width:64px;height:2px;margin:8px 0;background:linear-gradient(90deg,transparent,#9e8aff)}
+.intro-side-mark small{font-size:.48rem;color:#8e94ad;letter-spacing:.16em}
+.intro-footer{position:absolute;z-index:2;bottom:10px;left:0;right:0;margin:0;text-align:center;color:rgba(185,187,211,.45);font-size:.54rem;letter-spacing:.22em}
+.intro-screen.is-leaving{opacity:0;visibility:hidden;pointer-events:none}
+.intro-screen.is-leaving .intro-card{animation:intro-card-out .58s cubic-bezier(.7,0,.3,1) both}
+body.intro-revealed>header,body.intro-revealed>main>.welcome,body.intro-revealed>main>#catalogo,body.intro-revealed>.footer{animation:interface-reveal .62s cubic-bezier(.18,.78,.2,1) both}
+body.intro-revealed>main>.welcome{animation-delay:.08s}
+body.intro-revealed>main>#catalogo{animation-delay:.16s}
+body.intro-revealed>.footer{animation-delay:.22s}
+@keyframes intro-bg-drift{from{transform:scale(1.025) translateX(0)}to{transform:scale(1.08) translateX(-.8%)}}
+@keyframes intro-orbit-spin{to{transform:rotate(360deg)}}
+@keyframes intro-dot-pulse{0%,100%{box-shadow:0 0 0 5px rgba(170,154,255,.12),0 0 22px rgba(170,154,255,.9)}50%{box-shadow:0 0 0 9px rgba(170,154,255,.045),0 0 29px rgba(170,154,255,.95)}}
+@keyframes intro-card-in{from{opacity:0;transform:translateY(18px) scale(.985);filter:blur(5px)}to{opacity:1;transform:translateY(0) scale(1);filter:blur(0)}}
+@keyframes intro-copy-in{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+@keyframes intro-sheen{to{transform:translateX(120%)}}
+@keyframes intro-card-out{to{opacity:0;transform:scale(1.06);filter:blur(8px)}}
+@keyframes interface-reveal{from{opacity:0;transform:translateY(12px);filter:blur(3px)}to{opacity:1;transform:translateY(0);filter:blur(0)}}
+@media(max-width:720px){.intro-screen{display:flex;align-items:center;justify-content:center;overflow-y:auto;overflow-x:hidden;padding:12px}.intro-backdrop{background-image:linear-gradient(0deg,#080914 0%,rgba(8,9,20,.86) 40%,rgba(8,9,20,.58) 100%),url('https://m.media-amazon.com/images/S/pv-target-images/4c7ed176711c7f2d4732c949d649d0a33793adee214975ffdbad53d0acb1de51.jpg');background-position:center,64% center}.intro-card{min-height:calc(100vh - 24px);min-height:calc(100dvh - 24px);height:auto;margin-block:auto;padding:clamp(22px,7vw,34px);align-items:center;border-radius:23px;background:linear-gradient(150deg,rgba(11,13,27,.9),rgba(11,13,27,.79))}.intro-copy{width:100%}.intro-kicker{font-size:.63rem;letter-spacing:.13em;margin-bottom:19px}.intro-title{font-size:clamp(2.55rem,11.5vw,4.35rem)}.intro-description{font-size:.94rem;line-height:1.7;margin-top:20px}.intro-benefits{gap:8px;margin-top:21px}.intro-benefit{font-size:.72rem;padding:9px 11px}.intro-actions{margin-top:26px;gap:14px}.intro-next{min-width:165px;padding:15px 18px}.intro-side-mark{display:none}.intro-footer{display:none}.intro-tagline{font-size:.61rem}.intro-footer{font-size:.45rem;letter-spacing:.14em;bottom:6px}}
+@media(max-width:420px){.intro-benefits{display:grid;justify-items:start}.intro-benefit{max-width:100%;white-space:normal}.intro-tagline{width:100%}.intro-title{font-size:clamp(2.45rem,11vw,3.25rem)}.intro-note{font-size:.7rem}}
+@media(prefers-reduced-motion:reduce){.intro-screen,.intro-screen *{animation:none!important;transition:none!important}body.intro-revealed>header,body.intro-revealed>main>.welcome,body.intro-revealed>main>#catalogo,body.intro-revealed>.footer{animation:none!important}}
+
+/* Ajuste final: la bienvenida ocupa toda la pantalla, sin tarjeta/ventana interior. */
+.intro-screen{position:fixed;inset:0;width:100%;height:100vh;height:100dvh;min-height:100vh;min-height:100dvh;padding:0;display:flex;align-items:stretch;justify-content:stretch;overflow:hidden;background:#080914}
+.intro-backdrop{background-image:linear-gradient(90deg,rgba(8,9,20,.92) 0%,rgba(8,9,20,.76) 44%,rgba(8,9,20,.24) 100%),linear-gradient(0deg,rgba(8,9,20,.78) 0%,transparent 70%),url('https://m.media-amazon.com/images/S/pv-target-images/4c7ed176711c7f2d4732c949d649d0a33793adee214975ffdbad53d0acb1de51.jpg');background-position:center,center,68% 38%;background-size:cover}
+.intro-card{display:flex;position:relative;width:100%;height:100%;min-height:100vh;min-height:100dvh;max-width:none;margin:0;padding:clamp(28px,7vw,104px);align-items:center;border:0;border-radius:0;background:transparent;box-shadow:none;backdrop-filter:none;overflow:hidden;animation:intro-card-in .72s cubic-bezier(.18,.78,.2,1) both}
+.intro-card::after{display:none}
+.intro-copy{width:min(650px,74%);max-width:650px}
+.intro-kicker{font-size:.65rem;letter-spacing:.16em;margin-bottom:17px}
+.intro-title{max-width:650px;font-size:clamp(2.1rem,4.4vw,4.4rem);line-height:1.02;letter-spacing:-.065em}
+.intro-title span{margin-top:.08em}
+.intro-description{max-width:490px;font-size:clamp(.88rem,1.15vw,1.02rem);line-height:1.7;margin-top:17px}
+.intro-benefits{gap:8px;margin-top:19px}
+.intro-benefit{font-size:.72rem;padding:8px 11px}
+.intro-note{max-width:470px;font-size:.69rem;margin-top:11px}
+.intro-actions{margin-top:24px;gap:15px}
+.intro-next{min-width:155px;padding:14px 18px;border-radius:12px;font-size:.78rem;gap:20px}
+.intro-next svg{width:17px;height:17px}
+.intro-tagline{font-size:.62rem}
+.intro-side-mark{right:clamp(24px,5vw,70px);bottom:clamp(26px,5vw,62px)}
+.intro-side-mark strong{font-size:clamp(1.35rem,2.7vw,2.35rem)}
+.intro-footer{bottom:13px;font-size:.48rem}
+@media(max-width:720px){.intro-screen{display:flex;align-items:stretch;justify-content:stretch;overflow:hidden;padding:0}.intro-backdrop{background-image:linear-gradient(0deg,rgba(8,9,20,.95) 0%,rgba(8,9,20,.76) 52%,rgba(8,9,20,.38) 100%),url('https://m.media-amazon.com/images/S/pv-target-images/4c7ed176711c7f2d4732c949d649d0a33793adee214975ffdbad53d0acb1de51.jpg');background-position:center,64% center}.intro-card{width:100%;height:100%;min-height:100vh;min-height:100dvh;margin:0;padding:clamp(22px,7vw,38px);border:0;border-radius:0;background:linear-gradient(0deg,rgba(8,9,20,.3),rgba(8,9,20,.04));align-items:center}.intro-copy{width:100%;max-width:540px}.intro-kicker{font-size:.58rem;letter-spacing:.12em;margin-bottom:15px}.intro-title{font-size:clamp(2rem,8.6vw,3.4rem);line-height:1.02}.intro-description{font-size:.88rem;line-height:1.6;margin-top:15px}.intro-benefits{display:flex;gap:7px;margin-top:16px}.intro-benefit{font-size:.66rem;padding:7px 9px}.intro-note{font-size:.65rem;margin-top:9px}.intro-actions{margin-top:20px;gap:12px}.intro-next{min-width:142px;padding:13px 16px;font-size:.74rem}.intro-tagline{font-size:.55rem}.intro-side-mark{display:none}.intro-footer{display:none}}
+@media(max-width:420px){.intro-copy{max-width:100%}.intro-title{font-size:clamp(1.95rem,8.5vw,2.65rem)}.intro-benefits{display:flex;flex-direction:column;align-items:flex-start}.intro-benefit{white-space:normal;max-width:100%}.intro-actions{align-items:flex-start;flex-direction:column}.intro-tagline{width:auto}.intro-note{max-width:310px}}
+
+
+/* Portada destacada del último anime agregado */
+.welcome-art{background-image:linear-gradient(90deg,rgba(8,9,13,.94) 0%,rgba(8,9,13,.36) 45%,rgba(8,9,13,.08) 100%),linear-gradient(0deg,rgba(8,9,13,.58),transparent 62%),url("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQQyLQFt6q2KlvyjTsizaLIPiMA-zLdYi20uNPV0vChPQ&s=10") !important;background-position:center 35%;background-size:cover}
+.welcome-art:after{content:"ANIME NEXUS / TAKOPI"}
+@media(max-width:760px){.welcome-art{background-position:center 30%}}
+</style><link rel="preload" as="image" href="https://m.media-amazon.com/images/S/pv-target-images/4c7ed176711c7f2d4732c949d649d0a33793adee214975ffdbad53d0acb1de51.jpg">
+</head>
+<body class="intro-locked">
+
+<div class="intro-screen" id="nexus-intro" role="dialog" aria-modal="true" aria-labelledby="nexus-intro-title">
+  <div class="intro-backdrop" aria-hidden="true"></div>
+  <div class="intro-grid" aria-hidden="true"></div>
+  <div class="intro-orbit intro-orbit-one" aria-hidden="true"></div>
+  <div class="intro-orbit intro-orbit-two" aria-hidden="true"></div>
+  <section class="intro-card">
+    <div class="intro-copy">
+      <p class="intro-kicker"><span class="intro-status-dot" aria-hidden="true"></span> BIENVENIDO A ANIME NEXUS</p>
+      <h1 class="intro-title" id="nexus-intro-title">Contenido de calidad.<span>Tu próximo universo.</span></h1>
+      <p class="intro-description">Explorá animes y películas en un catálogo cuidado y organizado, con la mejor calidad disponible para cada título.</p>
+      <div class="intro-benefits" aria-label="Ventajas de Anime Nexus">
+        <span class="intro-benefit"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m5 12 4 4L19 6"/></svg>Catálogo seleccionado</span>
+        <span class="intro-benefit"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m5 12 4 4L19 6"/></svg>Sin anuncios integrados en la página</span>
+      </div>
+      <p class="intro-note">La publicidad durante la reproducción puede depender de servicios externos.</p>
+      <div class="intro-actions">
+        <button class="intro-next" id="nexus-next" type="button">NEXT <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12h15M12 5l7 7-7 7"/></svg></button>
+        <span class="intro-tagline">Una experiencia para explorar</span>
+      </div>
+    </div>
+    <div class="intro-side-mark" aria-hidden="true"><span>ANIME</span><strong>NEXUS</strong><i></i><small>DISCOVER YOUR NEXT WORLD</small></div>
+  </section>
+  <p class="intro-footer" aria-hidden="true">ANIME · PELÍCULAS · NUEVOS UNIVERSOS</p>
+</div>
+
+<header><nav aria-label="Categorías"><button class="active" data-filter="todo">Todo</button><button data-filter="animes">Animes</button><button data-filter="peliculas">Películas</button><button data-filter="pendientes">Pendientes</button></nav></header>
+<main id="inicio">
+
+<section class="welcome"><div class="welcome-copy"><div class="eyebrow"><span class="eyebrow-dot" aria-hidden="true"></span> ANIME NEXUS · ÚLTIMO AGREGADO</div><h1>Una historia<br><span>que no olvidarás.</span></h1><p>Takopi, un pequeño visitante de otro planeta, llega decidido a repartir felicidad. Su encuentro con una niña que atraviesa momentos difíciles dará lugar a una historia tan emotiva como inesperada.</p><div class="welcome-meta"><span>TAKOPI</span><i aria-hidden="true"></i><span>ANIME · CAPÍTULO DISPONIBLE</span></div><div class="actions"><button class="btn primary" type="button" data-open-show="takopi"><span class="play-mark" aria-hidden="true">▶</span> Ver capítulos</button><a class="btn explore-btn" href="#catalogo"><span>Explorar catálogo</span><svg class="arrow-down" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4.5v14"></path><path d="m5.5 12.5 6.5 6.5 6.5-6.5"></path></svg></a></div></div><div class="welcome-art" role="img" aria-label="Portada destacada de Takopi"></div><div class="welcome-index" aria-hidden="true">NEXUS / 007</div></section>
+<section id="catalogo"><div class="section-top catalog-top"><div class="catalog-heading"><h2>Tu catálogo</h2><p id="count" aria-live="polite">Todo el contenido, en un solo lugar</p></div><label class="search-box" for="anime-search"><svg aria-hidden="true" viewBox="0 0 24 24"><circle cx="10.8" cy="10.8" r="6.8"></circle><path d="m16 16 4.5 4.5"></path></svg><input id="anime-search" type="search" placeholder="Buscar anime o película..." autocomplete="off" aria-label="Buscar anime o película en el catálogo"><button id="clear-search" type="button" aria-label="Borrar búsqueda" hidden>×</button></label></div><div class="grid" id="grid">
+<article class="card" data-show="blackclover" data-category="animes" aria-expanded="false" aria-label="Black Clover Temporada 2. Toca para ver información y abrir los capítulos" role="group"><div class="poster"><img src="https://i0.wp.com/anitrendz.net/news/wp-content/uploads/2025/07/Black-Clover-Season-2-scaled.jpg?ssl=1" alt="Portada de Black Clover Temporada 2" loading="lazy" onerror="this.onerror=null;this.style.opacity='0';this.parentElement.style.background='linear-gradient(145deg,#27203f,#090b10)'"></div><div class="card-body"><h3>Black Clover</h3><p>Temporada 2 · Acción · Fantasía</p><p class="card-hint"><span class="hint-hover">Abrir capítulos <svg class="arrow-right" viewBox="0 0 24 24" aria-hidden="true"><path d="M4.5 12h14"></path><path d="m12 5.5 6.5 6.5-6.5 6.5"></path></svg></span><span class="hint-touch">Tocá otra vez para ver capítulos</span></p><div class="card-actions"><button class="pending-button" type="button" data-pending="blackclover" aria-pressed="false" aria-label="Agregar Black Clover Temporada 2 a pendientes"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 3.5h12v17l-6-3.7-6 3.7z"></path><path d="M12 7v5m-2.5-2.5h5"></path></svg><span data-pending-label>Agregar a pendientes</span></button></div></div></article>
+<article class="card" data-show="beerus" data-category="animes" aria-expanded="false" aria-label="Dragon Ball Super: Beerus. Toca para ver información y abrir los capítulos" role="group"><div class="poster"><img src="https://m.media-amazon.com/images/S/pv-target-images/10f3b03bde71f25a949883b249b2a12fa8d627290eb96db013c03f701470f0ab._SX1080_FMjpg_.jpg" alt="Portada de Dragon Ball Super: Beerus" loading="lazy" onerror="this.onerror=null;this.style.opacity='0';this.parentElement.style.background='linear-gradient(145deg,#3b233f,#090b10)'"></div><div class="card-body"><h3>Dragon Ball Super: Beerus</h3><p>Anime · Acción · Aventura</p><p class="card-hint"><span class="hint-hover">Abrir capítulos <svg class="arrow-right" viewBox="0 0 24 24" aria-hidden="true"><path d="M4.5 12h14"></path><path d="m12 5.5 6.5 6.5-6.5 6.5"></path></svg></span><span class="hint-touch">Tocá otra vez para ver capítulos</span></p><div class="card-actions"><button class="pending-button" type="button" data-pending="beerus" aria-pressed="false" aria-label="Agregar Dragon Ball Super: Beerus a pendientes"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 3.5h12v17l-6-3.7-6 3.7z"></path><path d="M12 7v5m-2.5-2.5h5"></path></svg><span data-pending-label>Agregar a pendientes</span></button></div></div></article>
+<article class="card" data-show="steelballrun" data-category="animes" aria-expanded="false" aria-label="Steel Ball Run. Toca para ver información y abrir los capítulos" role="group"><div class="poster"><img src="https://m.media-amazon.com/images/M/MV5BZDFmY2JjYmYtNjZhOC00ODJkLTliMjYtM2Y4YzBjMWE0ZGZjXkEyXkFqcGc@._V1_.jpg" alt="Portada de Steel Ball Run" loading="lazy" onerror="this.onerror=null;this.style.opacity='0';this.parentElement.style.background='linear-gradient(145deg,#29233e,#090b10)'"></div><div class="card-body"><h3>Steel Ball Run</h3><p>JoJo's Bizarre Adventure · Aventura</p><p class="card-hint"><span class="hint-hover">Abrir capítulos <svg class="arrow-right" viewBox="0 0 24 24" aria-hidden="true"><path d="M4.5 12h14"></path><path d="m12 5.5 6.5 6.5-6.5 6.5"></path></svg></span><span class="hint-touch">Tocá otra vez para ver capítulos</span></p><div class="card-actions"><button class="pending-button" type="button" data-pending="steelballrun" aria-pressed="false" aria-label="Agregar Steel Ball Run a pendientes"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 3.5h12v17l-6-3.7-6 3.7z"></path><path d="M12 7v5m-2.5-2.5h5"></path></svg><span data-pending-label>Agregar a pendientes</span></button></div></div></article>
+<article class="card" data-show="cyberpunk2" data-category="animes" aria-expanded="false" aria-label="Cyberpunk Edgerunners S2. Toca para ver información y abrir los capítulos" role="group"><div class="poster"><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTUiKgquJS4smq4Pb04GbwhSSaxOvdBvFqCiZZUE1DKaw&amp;s=10" alt="Portada de Cyberpunk Edgerunners S2" loading="lazy" onerror="this.onerror=null;this.style.opacity='0';this.parentElement.style.background='linear-gradient(145deg,#35243f,#090b10)'"></div><div class="card-body"><h3>Cyberpunk Edgerunners S2</h3><p>Temporada 2 · Ciencia ficción · Acción</p><p class="card-hint"><span class="hint-hover">Abrir capítulos <svg class="arrow-right" viewBox="0 0 24 24" aria-hidden="true"><path d="M4.5 12h14"></path><path d="m12 5.5 6.5 6.5-6.5 6.5"></path></svg></span><span class="hint-touch">Tocá otra vez para ver capítulos</span></p><div class="card-actions"><button class="pending-button" type="button" data-pending="cyberpunk2" aria-pressed="false" aria-label="Agregar Cyberpunk Edgerunners S2 a pendientes"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 3.5h12v17l-6-3.7-6 3.7z"></path><path d="M12 7v5m-2.5-2.5h5"></path></svg><span data-pending-label>Agregar a pendientes</span></button></div></div></article>
+<article class="card" data-show="mushoku" data-category="animes" aria-expanded="false" aria-label="Mushoku Tensei: Isekai Ittara Honki Dasu. Toca para ver información y abrir los capítulos" role="group"><div class="poster"><img src="https://hj.animejara.com/api-web/img/tn2mxPYSSUPHgfcAe5SCga1DO0ijpg.webp" alt="Portada de Mushoku Tensei: Isekai Ittara Honki Dasu" loading="lazy" onerror="this.onerror=null;this.style.opacity='0';this.parentElement.style.background='linear-gradient(145deg,#293d37,#090b10)'"></div><div class="card-body"><h3>Mushoku Tensei: Isekai Ittara Honki Dasu</h3><p>Anime · Fantasía · Isekai</p><p class="card-hint"><span class="hint-hover">Abrir capítulos <svg class="arrow-right" viewBox="0 0 24 24" aria-hidden="true"><path d="M4.5 12h14"></path><path d="m12 5.5 6.5 6.5-6.5 6.5"></path></svg></span><span class="hint-touch">Tocá otra vez para ver capítulos</span></p><div class="card-actions"><button class="pending-button" type="button" data-pending="mushoku" aria-pressed="false" aria-label="Agregar Mushoku Tensei: Isekai Ittara Honki Dasu a pendientes"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 3.5h12v17l-6-3.7-6 3.7z"></path><path d="M12 7v5m-2.5-2.5h5"></path></svg><span data-pending-label>Agregar a pendientes</span></button></div></div></article>
+
+
+<article class="card" data-show="takopi" data-category="animes" aria-expanded="false" aria-label="Takopi. Toca para ver la descripción y los capítulos" role="group" tabindex="0"><div class="poster"><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQQyLQFt6q2KlvyjTsizaLIPiMA-zLdYi20uNPV0vChPQ&amp;s=10" alt="Portada de Takopi" loading="lazy" onerror="this.onerror=null;this.style.opacity='0';this.parentElement.style.background='linear-gradient(145deg,#493255,#090b10)'"></div><div class="card-body"><h3>Takopi</h3><p>Drama psicológico · Ciencia ficción</p><p class="card-hint"><span class="hint-hover">Abrir capítulos <svg class="arrow-right" viewBox="0 0 24 24" aria-hidden="true"><path d="M4.5 12h14"></path><path d="m12 5.5 6.5 6.5-6.5 6.5"></path></svg></span><span class="hint-touch">Tocá otra vez para ver capítulos</span></p><div class="card-actions"><button class="pending-button" type="button" data-pending="takopi" aria-pressed="false" aria-label="Agregar Takopi a pendientes"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 3.5h12v17l-6-3.7-6 3.7z"></path><path d="M12 7v5m-2.5-2.5h5"></path></svg><span data-pending-label>Agregar a pendientes</span></button></div></div></article>
+
+<article class="card" data-show="broly" data-category="peliculas" data-kind="movie" data-watch-url="https://anonmp4.art/v/mCH5uFGclsRhAoA" aria-expanded="false" aria-label="Dragon Ball Super: Broly. Toca para abrir la película" role="group" tabindex="0"><div class="poster"><img src="https://m.media-amazon.com/images/S/pv-target-images/4c7ed176711c7f2d4732c949d649d0a33793adee214975ffdbad53d0acb1de51.jpg" alt="Portada de Dragon Ball Super: Broly" loading="lazy" onerror="this.onerror=null;this.style.opacity='0';this.parentElement.style.background='linear-gradient(145deg,#3b233f,#090b10)'"></div><div class="card-body"><h3>Dragon Ball Super: Broly</h3><p>Película · Acción · Artes marciales</p><p class="card-hint"><span class="hint-hover">Ver película <svg class="arrow-right" viewBox="0 0 24 24" aria-hidden="true"><path d="M4.5 12h14"></path><path d="m12 5.5 6.5 6.5-6.5 6.5"></path></svg></span><span class="hint-touch">Tocá para abrir la película</span></p><div class="card-actions"><button class="pending-button" type="button" data-pending="broly" aria-pressed="false" aria-label="Agregar Dragon Ball Super: Broly a pendientes"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 3.5h12v17l-6-3.7-6 3.7z"></path><path d="M12 7v5m-2.5-2.5h5"></path></svg><span data-pending-label>Agregar a pendientes</span></button></div></div></article>
+</div>
+<div class="empty-state" id="no-results" hidden><span class="empty-icon">⌕</span><h3>No encontramos ese anime</h3><p>Probá con otro nombre o borrá la búsqueda.</p><button class="btn" id="reset-search" type="button">Limpiar búsqueda</button></div>
+
+</section></main><footer class="footer">Anime Nexus · Una selección hecha para vos.</footer>
+
+<button class="back-to-top" id="back-to-top" type="button" aria-label="Subir al principio de la página" title="Subir arriba" hidden>
+  <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 19V5"></path><path d="m5.5 11.5 6.5-6.5 6.5 6.5"></path></svg>
+  <span>Subir arriba</span>
+</button>
+
+<div class="modal-overlay" id="modal-overlay" hidden>
+<div class="details" id="details-blackclover" role="dialog" aria-modal="true" aria-labelledby="modal-title-blackclover" tabindex="-1"><div class="details-head"><h3 id="modal-title-blackclover">Black Clover — Temporada 2</h3><button class="close" data-close="blackclover">Cerrar ✕</button></div><section class="anime-synopsis" aria-label="Sinopsis de Black Clover"><p class="synopsis-label">Sinopsis</p><p>En un reino donde la magia lo determina casi todo, Asta nace sin poderes mágicos, mientras que su amigo Yuno demuestra un talento extraordinario. Al recibir sus grimorios, ambos mantienen el sueño de convertirse en Rey Mago. Asta deberá abrirse camino con su raro grimorio de antimagia y una determinación inquebrantable.</p></section><p class="muted">Temporada 2 · 4 capítulos</p><article class="episode"><div class="episode-thumb"><img class="episode-preview" src="data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=" data-video-id="FXrWOuQVfLjpTzg" data-fallback="https://i0.wp.com/anitrendz.net/news/wp-content/uploads/2025/07/Black-Clover-Season-2-scaled.jpg?ssl=1" alt="Vista previa sin spoilers del capítulo 01" loading="lazy"><span class="thumb-number">EP 01</span><span class="thumb-kind">VISTA PREVIA</span></div><div class="episode-info"><h4>Capítulo 1</h4><p>Black Clover · Temporada 2</p></div><a class="btn primary" href="https://anonmp4.art/v/FXrWOuQVfLjpTzg" target="_blank" rel="noopener noreferrer">▶ Ver capítulo</a></article><article class="episode"><div class="episode-thumb"><img class="episode-preview" src="data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=" data-video-id="WDysonEMUexB3O3" data-fallback="https://i0.wp.com/anitrendz.net/news/wp-content/uploads/2025/07/Black-Clover-Season-2-scaled.jpg?ssl=1" alt="Vista previa sin spoilers del capítulo 02" loading="lazy"><span class="thumb-number">EP 02</span><span class="thumb-kind">VISTA PREVIA</span></div><div class="episode-info"><h4>Capítulo 2</h4><p>Black Clover · Temporada 2</p></div><a class="btn primary" href="https://anonmp4.art/v/WDysonEMUexB3O3" target="_blank" rel="noopener noreferrer">▶ Ver capítulo</a></article><article class="episode"><div class="episode-thumb"><img class="episode-preview" src="data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=" data-video-id="xwUSlWK42OimppU" data-fallback="https://i0.wp.com/anitrendz.net/news/wp-content/uploads/2025/07/Black-Clover-Season-2-scaled.jpg?ssl=1" alt="Vista previa sin spoilers del capítulo 03" loading="lazy"><span class="thumb-number">EP 03</span><span class="thumb-kind">VISTA PREVIA</span></div><div class="episode-info"><h4>Capítulo 3</h4><p>Black Clover · Temporada 2</p></div><a class="btn primary" href="https://anonmp4.art/v/xwUSlWK42OimppU" target="_blank" rel="noopener noreferrer">▶ Ver capítulo</a></article><article class="episode"><div class="episode-thumb"><img class="episode-preview" src="data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=" data-video-id="6vCENOZP6W9PUgc" data-fallback="https://i0.wp.com/anitrendz.net/news/wp-content/uploads/2025/07/Black-Clover-Season-2-scaled.jpg?ssl=1" alt="Vista previa sin spoilers del capítulo 04" loading="lazy"><span class="thumb-number">EP 04</span><span class="thumb-kind">VISTA PREVIA</span></div><div class="episode-info"><h4>Capítulo 4</h4><p>Black Clover · Temporada 2</p></div><a class="btn primary" href="https://anonmp4.art/v/6vCENOZP6W9PUgc" target="_blank" rel="noopener noreferrer">▶ Ver capítulo</a></article></div>
+<div class="details" id="details-beerus" role="dialog" aria-modal="true" aria-labelledby="modal-title-beerus" tabindex="-1"><div class="details-head"><h3 id="modal-title-beerus">Dragon Ball Super: Beerus — Capítulos</h3><button class="close" data-close="beerus">Cerrar ✕</button></div><section class="anime-synopsis" aria-label="Sinopsis de Dragon Ball Super: Beerus"><p class="synopsis-label">Sinopsis</p><p>Años después de la derrota de Majin Buu, la Tierra disfruta de un breve período de paz hasta que Beerus, el Dios de la Destrucción, despierta de un largo sueño. Al escuchar rumores sobre el saiyajin que derrotó a Freezer, busca a Goku. Su encuentro pone a la Tierra en peligro y da comienzo a una batalla de escala cósmica.</p></section><p class="muted">Anime · 3 capítulos</p><article class="episode"><div class="episode-thumb"><img class="episode-preview" src="data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=" data-video-id="rykjAI5Wx7HM3GV" data-fallback="https://m.media-amazon.com/images/S/pv-target-images/10f3b03bde71f25a949883b249b2a12fa8d627290eb96db013c03f701470f0ab._SX1080_FMjpg_.jpg" alt="Vista previa sin spoilers del capítulo 01" loading="lazy"><span class="thumb-number">EP 01</span><span class="thumb-kind">VISTA PREVIA</span></div><div class="episode-info"><h4>Capítulo 1</h4><p>Dragon Ball Super: Beerus · Episodio 1</p></div><a class="btn primary" href="https://anonmp4.art/v/rykjAI5Wx7HM3GV" target="_blank" rel="noopener noreferrer">▶ Ver capítulo</a></article><article class="episode"><div class="episode-thumb"><img class="episode-preview" src="data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=" data-video-id="pYpsMNlepBhoTCA" data-fallback="https://m.media-amazon.com/images/S/pv-target-images/10f3b03bde71f25a949883b249b2a12fa8d627290eb96db013c03f701470f0ab._SX1080_FMjpg_.jpg" alt="Vista previa sin spoilers del capítulo 02" loading="lazy"><span class="thumb-number">EP 02</span><span class="thumb-kind">VISTA PREVIA</span></div><div class="episode-info"><h4>Capítulo 2</h4><p>Dragon Ball Super: Beerus · Episodio 2</p></div><a class="btn primary" href="https://anonmp4.art/v/pYpsMNlepBhoTCA" target="_blank" rel="noopener noreferrer">▶ Ver capítulo</a></article><article class="episode"><div class="episode-thumb"><img class="episode-preview" src="data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=" data-video-id="omt7YlPROGCUNJx" data-fallback="https://m.media-amazon.com/images/S/pv-target-images/10f3b03bde71f25a949883b249b2a12fa8d627290eb96db013c03f701470f0ab._SX1080_FMjpg_.jpg" alt="Vista previa sin spoilers del capítulo 03" loading="lazy"><span class="thumb-number">EP 03</span><span class="thumb-kind">VISTA PREVIA</span></div><div class="episode-info"><h4>Capítulo 3</h4><p>Dragon Ball Super: Beerus · Episodio 3</p></div><a class="btn primary" href="https://anonmp4.art/v/omt7YlPROGCUNJx" target="_blank" rel="noopener noreferrer">▶ Ver capítulo</a></article></div>
+<div class="details" id="details-steelballrun" role="dialog" aria-modal="true" aria-labelledby="modal-title-steelballrun" tabindex="-1"><div class="details-head"><h3 id="modal-title-steelballrun">Steel Ball Run — Capítulos</h3><button class="close" data-close="steelballrun">Cerrar ✕</button></div><section class="anime-synopsis" aria-label="Sinopsis de Steel Ball Run"><p class="synopsis-label">Sinopsis</p><p>En 1890, una carrera a caballo que cruza Norteamérica ofrece un premio de 50 millones de dólares. Johnny Joestar, un antiguo jinete prodigio que quedó paralizado, recupera la esperanza al conocer a Gyro Zeppeli, un misterioso competidor. Unidos por sus propios objetivos, ambos se lanzan a una exigente travesía de unos 6.400 kilómetros.</p></section><p class="muted">Steel Ball Run · 5 capítulos</p><article class="episode"><div class="episode-thumb"><img class="episode-preview" src="data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=" data-video-id="hXeylobX4TfmbaX" data-fallback="https://m.media-amazon.com/images/M/MV5BZDFmY2JjYmYtNjZhOC00ODJkLTliMjYtM2Y4YzBjMWE0ZGZjXkEyXkFqcGc@._V1_.jpg" alt="Vista previa sin spoilers del capítulo 01" loading="lazy"><span class="thumb-number">EP 01</span><span class="thumb-kind">VISTA PREVIA</span></div><div class="episode-info"><h4>Capítulo 1</h4><p>Steel Ball Run · Episodio 1</p></div><a class="btn primary" href="https://anonmp4.art/v/hXeylobX4TfmbaX" target="_blank" rel="noopener noreferrer">▶ Ver capítulo</a></article><article class="episode"><div class="episode-thumb"><img class="episode-preview" src="data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=" data-video-id="JtDBkNE3Nq3BG8k" data-fallback="https://m.media-amazon.com/images/M/MV5BZDFmY2JjYmYtNjZhOC00ODJkLTliMjYtM2Y4YzBjMWE0ZGZjXkEyXkFqcGc@._V1_.jpg" alt="Vista previa sin spoilers del capítulo 02" loading="lazy"><span class="thumb-number">EP 02</span><span class="thumb-kind">VISTA PREVIA</span></div><div class="episode-info"><h4>Capítulo 2</h4><p>Steel Ball Run · Episodio 2</p></div><a class="btn primary" href="https://anonmp4.art/v/JtDBkNE3Nq3BG8k" target="_blank" rel="noopener noreferrer">▶ Ver capítulo</a></article><article class="episode"><div class="episode-thumb"><img class="episode-preview" src="data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=" data-video-id="wNfvK9bLlyzwve5" data-fallback="https://m.media-amazon.com/images/M/MV5BZDFmY2JjYmYtNjZhOC00ODJkLTliMjYtM2Y4YzBjMWE0ZGZjXkEyXkFqcGc@._V1_.jpg" alt="Vista previa sin spoilers del capítulo 03" loading="lazy"><span class="thumb-number">EP 03</span><span class="thumb-kind">VISTA PREVIA</span></div><div class="episode-info"><h4>Capítulo 3</h4><p>Steel Ball Run · Episodio 3</p></div><a class="btn primary" href="https://anonmp4.art/v/wNfvK9bLlyzwve5" target="_blank" rel="noopener noreferrer">▶ Ver capítulo</a></article><article class="episode"><div class="episode-thumb"><img class="episode-preview" src="data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=" data-video-id="aHEVLy27znl4iig" data-fallback="https://m.media-amazon.com/images/M/MV5BZDFmY2JjYmYtNjZhOC00ODJkLTliMjYtM2Y4YzBjMWE0ZGZjXkEyXkFqcGc@._V1_.jpg" alt="Vista previa sin spoilers del capítulo 04" loading="lazy"><span class="thumb-number">EP 04</span><span class="thumb-kind">VISTA PREVIA</span></div><div class="episode-info"><h4>Capítulo 4</h4><p>Steel Ball Run · Episodio 4</p></div><a class="btn primary" href="https://anonmp4.art/v/aHEVLy27znl4iig" target="_blank" rel="noopener noreferrer">▶ Ver capítulo</a></article><article class="episode"><div class="episode-thumb"><img class="episode-preview" src="data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=" data-video-id="1LJiARanMvnhE7O" data-fallback="https://m.media-amazon.com/images/M/MV5BZDFmY2JjYmYtNjZhOC00ODJkLTliMjYtM2Y4YzBjMWE0ZGZjXkEyXkFqcGc@._V1_.jpg" alt="Vista previa sin spoilers del capítulo 05" loading="lazy"><span class="thumb-number">EP 05</span><span class="thumb-kind">VISTA PREVIA</span></div><div class="episode-info"><h4>Capítulo 5</h4><p>Steel Ball Run · Episodio 5</p></div><a class="btn primary" href="https://anonmp4.art/v/1LJiARanMvnhE7O" target="_blank" rel="noopener noreferrer">▶ Ver capítulo</a></article></div>
+<div class="details" id="details-cyberpunk2" role="dialog" aria-modal="true" aria-labelledby="modal-title-cyberpunk2" tabindex="-1"><div class="details-head"><h3 id="modal-title-cyberpunk2">Cyberpunk Edgerunners S2</h3><button class="close" data-close="cyberpunk2">Cerrar ✕</button></div><section class="anime-synopsis" aria-label="Sinopsis de Cyberpunk: Edgerunners 2"><p class="synopsis-label">Sinopsis</p><p>En Night City, una nueva historia independiente sigue a Weak, una leyenda cyberpunk venida a menos que busca un propósito tras perder su antigua posición, y a D, un nómada que emprende una búsqueda de venganza. Sus caminos se cruzan con secretos corporativos en una historia cruda sobre redención, familia, obsesión y supervivencia.</p></section><p class="muted">Temporada 2 · 10 capítulos</p><article class="episode"><div class="episode-thumb"><img class="episode-preview" src="data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=" data-video-id="GfAAS2N7myMG6VJ" data-fallback="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTUiKgquJS4smq4Pb04GbwhSSaxOvdBvFqCiZZUE1DKaw&amp;s=10" alt="Vista previa sin spoilers del capítulo 01" loading="lazy"><span class="thumb-number">EP 01</span><span class="thumb-kind">VISTA PREVIA</span></div><div class="episode-info"><h4>Episodio 1</h4><p>Cyberpunk Edgerunners S2 · Temporada 2</p></div><a class="btn primary" href="https://anonmp4.art/v/GfAAS2N7myMG6VJ" target="_blank" rel="noopener noreferrer">▶ Ver capítulo</a></article><article class="episode"><div class="episode-thumb"><img class="episode-preview" src="data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=" data-video-id="Htu9IF2nukMxzCo" data-fallback="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTUiKgquJS4smq4Pb04GbwhSSaxOvdBvFqCiZZUE1DKaw&amp;s=10" alt="Vista previa sin spoilers del capítulo 02" loading="lazy"><span class="thumb-number">EP 02</span><span class="thumb-kind">VISTA PREVIA</span></div><div class="episode-info"><h4>Episodio 2</h4><p>Cyberpunk Edgerunners S2 · Temporada 2</p></div><a class="btn primary" href="https://anonmp4.art/v/Htu9IF2nukMxzCo" target="_blank" rel="noopener noreferrer">▶ Ver capítulo</a></article><article class="episode"><div class="episode-thumb"><img class="episode-preview" src="data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=" data-video-id="V2g6CXAMSVff2NX" data-fallback="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTUiKgquJS4smq4Pb04GbwhSSaxOvdBvFqCiZZUE1DKaw&amp;s=10" alt="Vista previa sin spoilers del capítulo 03" loading="lazy"><span class="thumb-number">EP 03</span><span class="thumb-kind">VISTA PREVIA</span></div><div class="episode-info"><h4>Episodio 3</h4><p>Cyberpunk Edgerunners S2 · Temporada 2</p></div><a class="btn primary" href="https://anonmp4.art/v/V2g6CXAMSVff2NX" target="_blank" rel="noopener noreferrer">▶ Ver capítulo</a></article><article class="episode"><div class="episode-thumb"><img class="episode-preview" src="data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=" data-video-id="IR7uORjp3xQjdTx" data-fallback="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTUiKgquJS4smq4Pb04GbwhSSaxOvdBvFqCiZZUE1DKaw&amp;s=10" alt="Vista previa sin spoilers del capítulo 04" loading="lazy"><span class="thumb-number">EP 04</span><span class="thumb-kind">VISTA PREVIA</span></div><div class="episode-info"><h4>Episodio 4</h4><p>Cyberpunk Edgerunners S2 · Temporada 2</p></div><a class="btn primary" href="https://anonmp4.art/v/IR7uORjp3xQjdTx" target="_blank" rel="noopener noreferrer">▶ Ver capítulo</a></article><article class="episode"><div class="episode-thumb"><img class="episode-preview" src="data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=" data-video-id="t2xn91pWISLyP1t" data-fallback="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTUiKgquJS4smq4Pb04GbwhSSaxOvdBvFqCiZZUE1DKaw&amp;s=10" alt="Vista previa sin spoilers del capítulo 05" loading="lazy"><span class="thumb-number">EP 05</span><span class="thumb-kind">VISTA PREVIA</span></div><div class="episode-info"><h4>Episodio 5</h4><p>Cyberpunk Edgerunners S2 · Temporada 2</p></div><a class="btn primary" href="https://anonmp4.art/v/t2xn91pWISLyP1t" target="_blank" rel="noopener noreferrer">▶ Ver capítulo</a></article><article class="episode"><div class="episode-thumb"><img class="episode-preview" src="data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=" data-video-id="3druFZ6qTnATXnP" data-fallback="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTUiKgquJS4smq4Pb04GbwhSSaxOvdBvFqCiZZUE1DKaw&amp;s=10" alt="Vista previa sin spoilers del capítulo 06" loading="lazy"><span class="thumb-number">EP 06</span><span class="thumb-kind">VISTA PREVIA</span></div><div class="episode-info"><h4>Episodio 6</h4><p>Cyberpunk Edgerunners S2 · Temporada 2</p></div><a class="btn primary" href="https://anonmp4.art/v/3druFZ6qTnATXnP" target="_blank" rel="noopener noreferrer">▶ Ver capítulo</a></article><article class="episode"><div class="episode-thumb"><img class="episode-preview" src="data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=" data-video-id="kNA5QMEwGVgoavJ" data-fallback="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTUiKgquJS4smq4Pb04GbwhSSaxOvdBvFqCiZZUE1DKaw&amp;s=10" alt="Vista previa sin spoilers del capítulo 07" loading="lazy"><span class="thumb-number">EP 07</span><span class="thumb-kind">VISTA PREVIA</span></div><div class="episode-info"><h4>Episodio 7</h4><p>Cyberpunk Edgerunners S2 · Temporada 2</p></div><a class="btn primary" href="https://anonmp4.art/v/kNA5QMEwGVgoavJ" target="_blank" rel="noopener noreferrer">▶ Ver capítulo</a></article><article class="episode"><div class="episode-thumb"><img class="episode-preview" src="data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=" data-video-id="AZlVHIcsptsbutp" data-fallback="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTUiKgquJS4smq4Pb04GbwhSSaxOvdBvFqCiZZUE1DKaw&amp;s=10" alt="Vista previa sin spoilers del capítulo 08" loading="lazy"><span class="thumb-number">EP 08</span><span class="thumb-kind">VISTA PREVIA</span></div><div class="episode-info"><h4>Episodio 8</h4><p>Cyberpunk Edgerunners S2 · Temporada 2</p></div><a class="btn primary" href="https://anonmp4.art/v/AZlVHIcsptsbutp" target="_blank" rel="noopener noreferrer">▶ Ver capítulo</a></article><article class="episode"><div class="episode-thumb"><img class="episode-preview" src="data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=" data-video-id="gLfb4Rx7wsBrPAb" data-fallback="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTUiKgquJS4smq4Pb04GbwhSSaxOvdBvFqCiZZUE1DKaw&amp;s=10" alt="Vista previa sin spoilers del capítulo 09" loading="lazy"><span class="thumb-number">EP 09</span><span class="thumb-kind">VISTA PREVIA</span></div><div class="episode-info"><h4>Episodio 9</h4><p>Cyberpunk Edgerunners S2 · Temporada 2</p></div><a class="btn primary" href="https://anonmp4.art/v/gLfb4Rx7wsBrPAb" target="_blank" rel="noopener noreferrer">▶ Ver capítulo</a></article><article class="episode"><div class="episode-thumb"><img class="episode-preview" src="data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=" data-video-id="zFXNuiUq3CHSQ4M" data-fallback="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTUiKgquJS4smq4Pb04GbwhSSaxOvdBvFqCiZZUE1DKaw&amp;s=10" alt="Vista previa sin spoilers del capítulo 10" loading="lazy"><span class="thumb-number">EP 10</span><span class="thumb-kind">VISTA PREVIA</span></div><div class="episode-info"><h4>Episodio 10</h4><p>Cyberpunk Edgerunners S2 · Temporada 2</p></div><a class="btn primary" href="https://anonmp4.art/v/zFXNuiUq3CHSQ4M" target="_blank" rel="noopener noreferrer">▶ Ver capítulo</a></article></div>
+<div class="details" id="details-mushoku" role="dialog" aria-modal="true" aria-labelledby="modal-title-mushoku" tabindex="-1"><div class="details-head"><h3 id="modal-title-mushoku">Mushoku Tensei: Isekai Ittara Honki Dasu</h3><button class="close" data-close="mushoku">Cerrar ✕</button></div><section class="anime-synopsis" aria-label="Sinopsis de Mushoku Tensei"><p class="synopsis-label">Sinopsis</p><p>Tras morir a los 34 años, un hombre que carga con los arrepentimientos de su vida renace como Rudeus Greyrat en un mundo de magia. Decidido a aprovechar esta segunda oportunidad, empieza a aprender hechicería, forja vínculos y se embarca en una aventura para vivir de una forma distinta a la de su existencia anterior.</p></section><p class="muted">Todavía no se cargaron enlaces de capítulos para este anime.</p></div>
+<div class="details" id="details-takopi" role="dialog" aria-modal="true" aria-labelledby="modal-title-takopi" tabindex="-1"><div class="details-head"><h3 id="modal-title-takopi">Takopi — Capítulos</h3><button class="close" data-close="takopi">Cerrar ✕</button></div><section class="anime-synopsis" aria-label="Sinopsis de Takopi"><p class="synopsis-label">Sinopsis</p><p>Takopi, un pequeño alienígena que quiere repartir felicidad, llega a la Tierra y conoce a Shizuka, una niña que atraviesa momentos difíciles. Con sus herramientas extraordinarias, intenta ayudarla, aunque todavía no comprende la complejidad de las emociones humanas.</p></section><p class="muted">1 enlace de capítulo cargado</p><article class="episode"><div class="episode-thumb"><img class="episode-preview" src="data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=" data-video-id="zlHMPdjzz8kltXh" data-fallback="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQQyLQFt6q2KlvyjTsizaLIPiMA-zLdYi20uNPV0vChPQ&amp;s=10" alt="Vista previa sin spoilers del capítulo disponible" loading="lazy"><span class="thumb-number">CAPÍTULO</span><span class="thumb-kind">VISTA PREVIA</span></div><div class="episode-info"><h4>Capítulo disponible</h4><p>Takopi · Enlace agregado</p></div><a class="btn primary" href="https://anonmp4.art/v/zlHMPdjzz8kltXh" target="_blank" rel="noopener noreferrer">▶ Ver capítulo</a></article></div>
+
+
+
+</div>
+
+
+
+<script>
+const cards = [...document.querySelectorAll('[data-show]')];
+const filters = [...document.querySelectorAll('[data-filter]')];
+const searchInput = document.getElementById('anime-search');
+const clearSearchButton = document.getElementById('clear-search');
+const noResults = document.getElementById('no-results');
+const countLabel = document.getElementById('count');
+let activeFilter = 'todo';
+const noResultsTitle = noResults.querySelector('h3');
+const noResultsMessage = noResults.querySelector('p');
+function loadPendingIds() {
+  try {
+    const stored = JSON.parse(localStorage.getItem('animeNexaPendientes') || '[]');
+    return new Set(Array.isArray(stored) ? stored.filter(id => cards.some(card => card.dataset.show === id)) : []);
+  } catch (error) { return new Set(); }
+}
+const pendingIds = loadPendingIds();
+function savePendingIds() {
+  try { localStorage.setItem('animeNexaPendientes', JSON.stringify([...pendingIds])); }
+  catch (error) { /* El catálogo sigue funcionando aunque el navegador bloquee el almacenamiento. */ }
+}
+function updatePendingUI() {
+  document.querySelectorAll('[data-pending]').forEach(button => {
+    const id = button.dataset.pending;
+    const selected = pendingIds.has(id);
+    const card = button.closest('[data-show]');
+    const title = card?.querySelector('h3')?.textContent.trim() || 'este anime';
+    button.classList.toggle('is-pending', selected);
+    button.setAttribute('aria-pressed', String(selected));
+    button.setAttribute('aria-label', selected ? `Quitar ${title} de pendientes` : `Agregar ${title} a pendientes`);
+    const label = button.querySelector('[data-pending-label]');
+    if (label) label.textContent = selected ? 'En pendientes ✓' : '＋ Pendientes';
+    const svg = button.querySelector('svg');
+    if (svg) svg.innerHTML = selected
+      ? '<path d="M6 3.5h12v17l-6-3.7-6 3.7z"></path><path d="m9 11.5 2 2 4-4"></path>'
+      : '<path d="M6 3.5h12v17l-6-3.7-6 3.7z"></path><path d="M12 7v5m-2.5-2.5h5"></path>';
+  });
+}
+const modalOverlay = document.getElementById('modal-overlay');
+// Separa el título y el botón de cierre del área desplazable en todos los modales.
+// Así el encabezado permanece estable y nunca queda texto cruzándose por detrás.
+modalOverlay.querySelectorAll('.details').forEach(dialog => {
+  const head = dialog.querySelector(':scope > .details-head');
+  if (!head || dialog.querySelector(':scope > .details-content')) return;
+  const content = document.createElement('div');
+  content.className = 'details-content';
+  let node = head.nextSibling;
+  while (node) {
+    const next = node.nextSibling;
+    content.appendChild(node);
+    node = next;
+  }
+  dialog.append(head, content);
+});
+let activeDialog = null;
+const pageRegions = [document.querySelector('header'), document.querySelector('main'), document.querySelector('.footer')].filter(Boolean);
+let previousFocus = null;
+
+// Botón flotante para volver arriba; permanece oculto mientras hay una ventana abierta.
+const backToTopButton = document.getElementById('back-to-top');
+function updateBackToTop() {
+  const overlayOpen = modalOverlay && !modalOverlay.hidden;
+  backToTopButton.hidden = window.scrollY < 320 || overlayOpen;
+}
+window.addEventListener('scroll', updateBackToTop, { passive: true });
+window.addEventListener('resize', updateBackToTop);
+backToTopButton.addEventListener('click', () => {
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  window.scrollTo({ top: 0, behavior: reduceMotion ? 'auto' : 'smooth' });
+});
+// Miniaturas robustas: cargan al abrir el modal, para evitar muchas peticiones simultáneas.
+// Si no existe una imagen propia del capítulo, se usa la portada del anime; si tampoco carga,
+// se muestra una miniatura local generada por la página para que nunca quede un espacio roto.
+const previewLoaders = new WeakSet();
+function svgPreview(title, episodeLabel) {
+  const safeTitle = String(title || 'Anime Nexus').replace(/[&<>"']/g, ch => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&apos;'}[ch]));
+  const safeEpisode = String(episodeLabel || 'EPISODIO').replace(/[&<>"']/g, ch => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&apos;'}[ch]));
+  const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="640" height="360" viewBox="0 0 640 360"><defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#35245f"/><stop offset=".55" stop-color="#171a2a"/><stop offset="1" stop-color="#090b10"/></linearGradient><radialGradient id="r"><stop stop-color="#8a72ff" stop-opacity=".42"/><stop offset="1" stop-color="#8a72ff" stop-opacity="0"/></radialGradient></defs><rect width="640" height="360" fill="url(#g)"/><circle cx="510" cy="80" r="230" fill="url(#r)"/><path d="M0 282 L180 190 L285 248 L430 130 L640 250 V360 H0Z" fill="#080a11" opacity=".58"/><path d="M35 30 H605" stroke="#c5b9ff" stroke-opacity=".35"/><rect x="34" y="48" width="5" height="42" rx="2.5" fill="#a99aff"/><text x="55" y="66" fill="#c5b9ff" font-family="Arial,sans-serif" font-size="15" font-weight="700" letter-spacing="3">ANIME NEXUS</text><text x="36" y="205" fill="#ffffff" font-family="Arial,sans-serif" font-size="30" font-weight="700">${safeTitle.slice(0,42)}</text><text x="38" y="242" fill="#b9bdca" font-family="Arial,sans-serif" font-size="17">${safeEpisode}</text><rect x="36" y="280" width="235" height="32" rx="16" fill="#8a72ff" fill-opacity=".18" stroke="#b7a9ff" stroke-opacity=".48"/><text x="54" y="301" fill="#e4dfff" font-family="Arial,sans-serif" font-size="12" font-weight="700" letter-spacing="1.4">VISTA PREVIA NO DISPONIBLE</text></svg>`;
+  return 'data:image/svg+xml;charset=UTF-8,' + encodeURIComponent(svg);
+}
+function imageIsUsable(image) {
+  return image.naturalWidth >= 80 && image.naturalHeight >= 45;
+}
+function loadEpisodePreview(img) {
+  if (previewLoaders.has(img)) return;
+  previewLoaders.add(img);
+  const thumb = img.closest('.episode-thumb');
+  const modal = img.closest('.details');
+  const badge = thumb?.querySelector('.thumb-kind');
+  const showId = modal?.id?.replace(/^details-/, '');
+  const cardPoster = showId ? document.querySelector(`[data-show="${showId}"] .poster img`) : null;
+  const animeTitle = modal?.querySelector('.details-head h3')?.textContent.replace(/\s*[—-]\s*(Capítulos|Película completa)\s*$/i, '').trim() || 'Anime Nexus';
+  const episodeLabel = thumb?.querySelector('.thumb-number')?.textContent.trim() || 'EPISODIO';
+  const sourceCandidates = [];
+  const addCandidate = (url) => {
+    if (typeof url === 'string' && /^https:\/\//i.test(url) && !sourceCandidates.some(item => item.url === url)) {
+      sourceCandidates.push({url, kind:'poster'});
+    }
+  };
+  // Prueba ambos valores: el fallback ya guardado y la imagen real usada en la portada del catálogo.
+  addCandidate(img.dataset.fallback);
+  addCandidate(cardPoster?.currentSrc || cardPoster?.src || '');
+  const generatedPreview = svgPreview(animeTitle, episodeLabel);
+  let fallbackIndex = 0;
+  let metadataRequested = false;
+
+  function markFallback(kind) {
+    thumb?.classList.toggle('is-poster-fallback', kind === 'poster');
+    thumb?.classList.remove('is-image-unavailable');
+    if (badge) badge.textContent = kind === 'episode' ? 'VISTA PREVIA' : kind === 'poster' ? 'PORTADA DEL ANIME' : 'VISTA PREVIA';
+    img.alt = kind === 'episode'
+      ? `Vista previa del ${episodeLabel.toLowerCase()} de ${animeTitle}`
+      : kind === 'poster'
+        ? `Portada de ${animeTitle} como vista previa del ${episodeLabel.toLowerCase()}`
+        : `Vista previa alternativa de ${animeTitle}, ${episodeLabel}`;
+  }
+  function showGeneratedFallback() {
+    img.onload = () => {
+      if (!imageIsUsable(img)) {
+        img.style.display = 'none';
+        thumb?.classList.add('is-image-unavailable');
+        if (badge) badge.textContent = 'VISTA PREVIA';
+      } else {
+        img.style.display = 'block';
+        markFallback('generated');
+      }
+    };
+    img.onerror = () => {
+      img.style.display = 'none';
+      thumb?.classList.add('is-image-unavailable');
+      if (badge) badge.textContent = 'VISTA PREVIA';
+    };
+    img.dataset.imageSource = 'generated';
+    img.src = generatedPreview;
+  }
+  function tryNextFallback() {
+    if (fallbackIndex >= sourceCandidates.length) {
+      showGeneratedFallback();
+      return;
+    }
+    const candidate = sourceCandidates[fallbackIndex++];
+    img.onload = () => {
+      if (!imageIsUsable(img)) {
+        tryNextFallback();
+        return;
+      }
+      img.style.display = 'block';
+      img.dataset.imageSource = 'fallback';
+      markFallback('poster');
+    };
+    img.onerror = tryNextFallback;
+    img.dataset.imageSource = 'fallback';
+    img.src = candidate.url;
+  }
+  function setEpisodeThumbnail(url) {
+    if (!url || !/^https:\/\//i.test(url)) return;
+    // Verifica la imagen antes de sustituir la portada: algunas API devuelven miniaturas vacías o de 1 px.
+    const probe = new Image();
+    probe.onload = () => {
+      if (!imageIsUsable(probe)) return;
+      img.onload = () => {
+        if (!imageIsUsable(img)) {
+          fallbackIndex = 0;
+          tryNextFallback();
+          return;
+        }
+        img.style.display = 'block';
+        img.dataset.imageSource = 'episode';
+        markFallback('episode');
+      };
+      img.onerror = () => {
+        fallbackIndex = 0;
+        tryNextFallback();
+      };
+      img.dataset.imageSource = 'episode';
+      img.src = url;
+    };
+    probe.onerror = () => {};
+    probe.src = url;
+  }
+
+  // Mostrar una imagen de respaldo inmediatamente; la búsqueda de miniatura real no la bloquea.
+  img.removeAttribute('src');
+  tryNextFallback();
+  if (metadataRequested) return;
+  metadataRequested = true;
+  const videoId = img.dataset.videoId;
+  if (!videoId) return;
+  fetch(`https://anonmp4api.xyz/info/${encodeURIComponent(videoId)}`, {headers:{Accept:'application/json'}})
+    .then(response => response.ok ? response.json() : null)
+    .then(info => {
+      const url = info && info.success !== false && typeof info.thumbnail === 'string' ? info.thumbnail : '';
+      if (url && !/camera|placeholder|no[-_]?image|default/i.test(url)) setEpisodeThumbnail(url);
+    })
+    .catch(() => { /* La portada de respaldo ya está visible; no hace falta bloquear la ventana. */ });
+}
+
+const previewObserver = 'IntersectionObserver' in window ? new IntersectionObserver(entries => {
+  entries.forEach(entry => {
+    if (!entry.isIntersecting) return;
+    previewObserver.unobserve(entry.target);
+    loadEpisodePreview(entry.target);
+  });
+}, {rootMargin:'180px 0px', threshold:0.01}) : null;
+document.querySelectorAll('.episode-preview').forEach(img => {
+  img.removeAttribute('src');
+  img.loading = 'lazy';
+  img.decoding = 'async';
+  if (previewObserver) previewObserver.observe(img);
+  else loadEpisodePreview(img);
+});
+function normalizeText(value) {
+  return value.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLocaleLowerCase('es');
+}
+
+function applyFilter(filter = activeFilter, animateCards = false) {
+  activeFilter = filter;
+  const query = normalizeText(searchInput.value.trim());
+  let visibleCount = 0;
+
+  let visibleIndex = 0;
+  cards.forEach(card => {
+    const categoryMatches = filter === 'todo' || (filter === 'pendientes' ? pendingIds.has(card.dataset.show) : card.dataset.category === filter);
+    const searchableText = normalizeText([card.querySelector('h3')?.textContent || '', ...[...card.querySelectorAll('.card-body p')].map(p => p.textContent)].join(' '));
+    const queryMatches = !query || searchableText.includes(query);
+    const visible = categoryMatches && queryMatches;
+    card.hidden = !visible;
+    card.classList.remove('category-enter');
+    card.style.removeProperty('--enter-delay');
+    if (visible) {
+      if (animateCards) {
+        card.style.setProperty('--enter-delay', `${Math.min(visibleIndex, 8) * 48}ms`);
+        // Reinicia la animación cada vez que se cambia de categoría.
+        void card.offsetWidth;
+        card.classList.add('category-enter');
+      }
+      visibleIndex++;
+      visibleCount++;
+    }
+  });
+
+  filters.forEach(button => button.classList.toggle('active', button.dataset.filter === filter));
+  clearSearchButton.hidden = !searchInput.value;
+  noResults.hidden = visibleCount !== 0;
+  if (visibleCount === 0) {
+    countLabel.textContent = filter === 'pendientes' && !query ? 'Todavía no hay títulos pendientes' : 'No encontramos resultados';
+    if (filter === 'pendientes' && !query) {
+      noResultsTitle.textContent = 'Tu lista está vacía';
+      noResultsMessage.textContent = 'Agregá un título con el botón Pendientes de cada portada.';
+    } else {
+      noResultsTitle.textContent = 'No encontramos ese título';
+      noResultsMessage.textContent = 'Probá con otro nombre o borrá la búsqueda.';
+    }
+  } else if (query) {
+    countLabel.textContent = `${visibleCount} ${visibleCount === 1 ? 'resultado encontrado' : 'resultados encontrados'}`;
+  } else if (filter === 'pendientes') {
+    countLabel.textContent = `${visibleCount} ${visibleCount === 1 ? 'título pendiente' : 'títulos pendientes'}`;
+  } else {
+    countLabel.textContent = filter === 'todo' ? 'Todo el contenido, en un solo lugar' : filter === 'peliculas' ? 'Películas disponibles' : 'Animes disponibles';
+  }
+}
+filters.forEach(button => button.addEventListener('click', () => applyFilter(button.dataset.filter, true)));
+cards.forEach(card => card.addEventListener('animationend', event => {
+  if (event.animationName === 'categoryCardIn') {
+    card.classList.remove('category-enter');
+    card.style.removeProperty('--enter-delay');
+  }
+}));
+searchInput.addEventListener('input', () => applyFilter());
+clearSearchButton.addEventListener('click', () => {
+  searchInput.value = '';
+  applyFilter();
+  searchInput.focus();
+});
+document.getElementById('reset-search').addEventListener('click', () => {
+  searchInput.value = '';
+  applyFilter();
+  searchInput.focus();
+});
+
+function openModal(id, trigger) {
+  const panel = document.getElementById('details-' + id);
+  if (!panel) return;
+  modalOverlay.querySelectorAll('.details').forEach(dialog => dialog.classList.remove('open'));
+  activeDialog = panel;
+  previousFocus = trigger || document.activeElement;
+  // Cada anime abre desde el principio, incluso si antes se cerró tras desplazarse abajo.
+  panel.scrollTop = 0;
+  const scrollContent = panel.querySelector('.details-content');
+  if (scrollContent) scrollContent.scrollTop = 0;
+  cards.forEach(card => card.setAttribute('aria-expanded', String(card.dataset.show === id)));
+  panel.classList.add('open');
+  modalOverlay.hidden = false;
+  updateBackToTop();
+  document.body.classList.add('modal-open');
+  pageRegions.forEach(region => { region.inert = true; });
+  const closeButton = panel.querySelector('[data-close]');
+  if (closeButton) closeButton.focus({preventScroll:true});
+}
+
+function closeModal() {
+  if (modalOverlay.hidden) return;
+  modalOverlay.hidden = true;
+  updateBackToTop();
+  if (activeDialog) activeDialog.classList.remove('open');
+  activeDialog = null;
+  document.body.classList.remove('modal-open');
+  pageRegions.forEach(region => { region.inert = false; });
+  cards.forEach(card => card.setAttribute('aria-expanded', 'false'));
+  if (previousFocus && typeof previousFocus.focus === 'function') previousFocus.focus({preventScroll:true});
+}
+
+function openExternalTitle(url) {
+  if (!url) return;
+  // Enlaces de películas: abrir la URL original sin modal ni selector de capítulos.
+  window.open(url, '_blank', 'noopener,noreferrer');
+}
+
+document.querySelectorAll('[data-open-show]').forEach(button => {
+  button.addEventListener('click', event => openModal(event.currentTarget.dataset.openShow, event.currentTarget));
+});
+
+document.querySelectorAll('[data-play-url]').forEach(button => {
+  button.addEventListener('click', event => openExternalTitle(event.currentTarget.dataset.playUrl));
+});
+
+function activateCard(card) {
+  if (card.dataset.kind === 'movie') {
+    openExternalTitle(card.dataset.watchUrl);
+    return;
+  }
+  openModal(card.dataset.show, card);
+}
+
+cards.forEach(card => card.addEventListener('click', event => {
+  if (event.target.closest('button')) return;
+  // En pantallas táctiles, el primer toque revela el texto; el segundo abre el contenido.
+  const touchMode = window.matchMedia('(hover: none) and (pointer: coarse)').matches;
+  if (touchMode && !card.classList.contains('revealed')) {
+    card.classList.add('revealed');
+    return;
+  }
+  activateCard(card);
+}));
+cards.forEach(card => card.addEventListener('keydown', event => {
+  if (event.target !== card || (event.key !== 'Enter' && event.key !== ' ')) return;
+  event.preventDefault();
+  activateCard(card);
+}));
+document.querySelectorAll('[data-pending]').forEach(button => button.addEventListener('click', event => {
+  event.stopPropagation();
+  const id = button.dataset.pending;
+  if (pendingIds.has(id)) pendingIds.delete(id); else pendingIds.add(id);
+  savePendingIds();
+  updatePendingUI();
+  applyFilter();
+}));
+// El botón destacado de la película también abre directamente su URL original.
+
+modalOverlay.querySelectorAll('[data-close]').forEach(button => button.addEventListener('click', closeModal));
+
+// Los enlaces de capítulos usan la página original /v/ y se abren en otra pestaña.
+// Anime Nexus permanece abierta mientras se reproduce el capítulo en otra pestaña.
+
+// Escape cierra la ventana de capítulos.
+document.addEventListener('keydown', event => {
+  if (modalOverlay.hidden) return;
+  if (event.key === 'Escape') {
+    event.preventDefault();
+    closeModal();
+  }
+});
+updatePendingUI();
+applyFilter();
+updateBackToTop();
+
+
+// Controlador de entrada. La interfaz se mantiene inaccesible hasta que se pulsa NEXT.
+(() => {
+  const intro = document.getElementById('nexus-intro');
+  const nextButton = document.getElementById('nexus-next');
+  if (!intro || !nextButton) {
+    document.body.classList.remove('intro-locked');
+    return;
+  }
+
+  let entering = false;
+  const enterCatalog = () => {
+    if (entering) return;
+    entering = true;
+    nextButton.disabled = true;
+    nextButton.setAttribute('aria-label', 'Entrando al catálogo');
+    intro.classList.add('is-leaving');
+    window.setTimeout(() => {
+      intro.hidden = true;
+      intro.setAttribute('aria-hidden', 'true');
+      document.body.classList.remove('intro-locked');
+      document.body.classList.add('intro-revealed');
+      const firstCategory = document.querySelector('header nav [data-filter="todo"]');
+      if (firstCategory) firstCategory.focus({preventScroll:true});
+      window.setTimeout(() => document.body.classList.remove('intro-revealed'), 1100);
+    }, window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 0 : 620);
+  };
+  nextButton.addEventListener('click', enterCatalog);
+  nextButton.focus({preventScroll:true});
+  document.addEventListener('keydown', event => {
+    if (entering) return;
+    if (event.key === 'Enter' && !event.ctrlKey && !event.altKey && !event.metaKey) {
+      const active = document.activeElement;
+      if (active === nextButton || active === document.body) {
+        event.preventDefault();
+        enterCatalog();
+      }
+    }
+  });
+})();
+
+</script>
+
+
+</body></html>
